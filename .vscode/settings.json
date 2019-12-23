@@ -1,4 +1,9 @@
 {
-    "python.pythonPath": "/usr/local/bin/python3",
-    "python.autoComplete.extraPaths": ["./src","Activities/M269_Unit_2/Python_activity_2.2/Stack.py"]
+    "python.pythonPath": "C:\\Users\\Tom\\Anaconda3\\envs\\py3\\python.exe",
+    "python.autoComplete.extraPaths": [
+        "./src",
+        "Activities/M269_Unit_2/Python_activity_2.2/Stack.py"
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
 }
