@@ -12,7 +12,7 @@ In terms of the number of swaps, in the best case bubble sort will make no swaps
 
 ## Selection sort
 
-Selection sort also makes n − 1 passes over a sequence of n elements. Its inner loop makes exactly the same number of comparisons as bubble sort, so the worst-case maximum number of comparisons will be the same. **_If the comparison is again taken as the unit of computation, selection sort’s worst-case complexity is O(n2), and in the best case it is also O(n2)._** 
+Selection sort also makes n − 1 passes over a sequence of n elements. Its inner loop makes exactly the same number of comparisons as bubble sort, so the worst-case maximum number of comparisons will be the same. **_If the comparison is again taken as the unit of computation, selection sort’s worst-case complexity is O(n2), and in the best case it is also O(n2)._**
 
 *Selection sort is worse than bubble sort on a sorted sequence because it doesn’t seem to be possible to stop the outer loop when no swaps are made, as is done in short bubble sort.*
 
@@ -33,3 +33,16 @@ Short bubble sort is clearly the worst algorithm here. It makes as many comparis
 Selection sort and insertion sort: in the worst case, both algorithms make the same number of comparisons as short bubble sort.
 
 Insertion sort, working by shifting elements rather than swapping them, may be more efficient in practice. But in the end, with comparison as the unit of computation, all three algorithms have similar worst-case complexity of O(n2).
+
+These three algorithms all involve what is termed **in-place sorting**, _that is, no other list needs to be created; the items are moved around within the original list. All of them depend on two loops, one embedded inside the other._
+
+Considering the relative efficiency of these three algorithms by analysing their complexity.
+There are two possible units of computation:
+
+- Comparison of two items. The total number of comparisons made is a useful measure of the complexity of an algorithm. All sorting algorithms involve taking two elements and comparing their relative ordering, as specified by the ordering function.
+
+- Swapping two elements. The total number of swaps made is also a useful measure of the complexity of an algorithm. Depending on the result of the comparison (1), it may be necessary for the algorithm to swap the positions of the two elements that have been compared.
+
+In evaluating the complexity of an algorithm, the cost of comparing and of swapping two items is considered to be the same – O(1). However, in actual programs swapping is likely to be more expensive than comparing, so an O(n2) sorting algorithm that makes many swaps may actually run slower than an O(n2) algorithm that makes fewer, even on the same input. Most benchmark tests indicate that it is always better to try to minimise – if we can – the number of swaps.
+
+**_Bubble sort, insertion sort and selection sort all  use one loop nested inside another. Thus, we have to multiply the number of computational steps which makes them O(n2)._**

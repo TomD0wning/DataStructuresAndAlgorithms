@@ -11,7 +11,7 @@ def findGCD(m,n):
     return n
 
 
-#Naieve algorithms that simple iterate through a collection inorder to solve a problem statement
+#Naive algorithms that simple iterate through a collection inorder to solve a problem statement
 def nameSearch(names, target):
     for name in names:
         if(name == target):
@@ -27,7 +27,6 @@ def findHighest(intList):
 
 def gradeStudents(names, marks):
     results = []
-    count = 0
     for i in range(len(names)):
         results.append(names[i])
         if(marks[i] >= 70 ):
