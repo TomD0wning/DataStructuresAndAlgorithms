@@ -82,3 +82,9 @@ Two thing can be gleaned from this
 - if the proposition is true for k it is also true for k + 1
 
 **Remeber To prove a proposition, firstly proved the simplest possible case of the proposition. Then we based the second part of our proof on increasing the size of the problem by 1.**
+
+## Reduction
+
+
+
+## Recursion
