@@ -85,6 +85,15 @@ Two thing can be gleaned from this
 
 ## Reduction
 
+a reduction is a special kind of transformation: the problem becomes smaller at every stage, and each step moves towards a problem so trivial that it can be solved instantly.
 
 
 ## Recursion
+
+Recursion is a computational technique that involves a function calling itself. It can be used in the algorithmic quest to break down a problem into smaller and smaller sub-problems.
+
+A recursive algorithm must:
+
+    - Have a base case – usually a simple version of the problem that can be solved directly
+    - Involve a state-change that moves the problem stepwise towards the base case
+    - Call itself.
