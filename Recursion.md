@@ -83,10 +83,13 @@ Two thing can be gleaned from this
 
 **Remeber To prove a proposition, firstly proved the simplest possible case of the proposition. Then we based the second part of our proof on increasing the size of the problem by 1.**
 
+---
+
 ## Reduction
 
 a reduction is a special kind of transformation: the problem becomes smaller at every stage, and each step moves towards a problem so trivial that it can be solved instantly.
 
+---
 
 ## Recursion
 
@@ -94,6 +97,95 @@ Recursion is a computational technique that involves a function calling itself. 
 
 A recursive algorithm must:
 
-    - Have a base case – usually a simple version of the problem that can be solved directly
-    - Involve a state-change that moves the problem stepwise towards the base case
-    - Call itself.
+- Have a base case – usually a simple version of the problem that can be solved directly
+- Involve a state-change that moves the problem stepwise towards the base case
+- Call itself.
+
+for example, the below function will sum up number in a list, by calling it's self to add each of the numbers
+
+```python
+def listSum(numList):
+    if len(numList) == 1:
+        return numList[0]
+    else:
+        return numList[0] + listSum(numList[1:])
+```
+
+In python, recursion takes advantage of stake frames
+
+- A stack frame is a record of the local variables, along with their values, that a recursive function is using each time it calls itself.
+
+- Each time round the recursive loop, a stack frame for that call is pushed on a special internal stack – the call stack – maintained by the Python interpreter. After the base case is reached, the stack frames are popped successively off the stack until the stack is empty.
+
+- After the base case, the recursion unwinds – that is, all the stack frames are popped one by one.
+
+- Each recursive call reduces the problem in some way.
+
+- On each recursive call, the values of the function’s local variables are remembered – they are recorded in the stack frame; with iteration they are forgotten.
+
+to further express this, consider factorials; a factorial of a positive integer _N_! is1 × 2 × 3 × ⋯ × (N − 1) × N. considering a basecase of 1! = 1, as in N is equal to 1 , then a recursive algorithm to solve N! would simply return N * function(N -1). expressed as plain english this would be ```If N is 1, the factorial of N is 1. Otherwise the factorial of N is N times the factorial of N − 1.```
+
+which translated into python, would be
+
+```python
+def factorial(N):
+    if N == 1:
+        return 1
+    else:
+        return N * factorial(N-1)
+```
+Now let’s consider the state of the call stack at the moment at which the recursion hits the base case, assuming the function was initially called with N = 6.
+
+On the sixth call, the base case has been reached, with the value of N = 1. From this point, the recursion unwinds. The top item on the stack (the base case) is popped, giving 1 as the value of factorial(1). (This situation is illustrated in Figure 3.10.) The next stack frame is then popped and 1 is multiplied by the value of N in this stack frame (2), giving factorial(2) = 1*2 = 2. The next stack frame is popped and the value of N found there (N = 3) is multiplied by the value of factorial( 2) we have already, giving factorial(3) = 6. The rest of the stack is progressively popped in this manner. By the time it is empty, the calculation 1 * 2 * 3 * 4 * 5 * 6 = factorial(6) = 720 has been performed.
+
+![Factorial Stack Frame](./images/FactorialStackFrame.png)
+
+A Second example of using a  recursive function is summation of n odd positive integers
+
+Stated as a computational problem:
+
+---
+
+Name: OddIntegerSummation  
+Inputs: An integer N  
+Outputs: An integer F  
+Precondition: N > 0  
+Postcondition: S = 1 + 2 + 3 + ⋯ + 2N - 1
+
+---
+
+The basecase for this would be _N_ = 1
+
+As structured english this would be:
+
+```python
+    IF N is equal to 1
+
+        return 1
+
+    ELSE
+
+        return 2N - 1 + the sum of the first of N - 1 odd numbers
+```
+
+translated into python:
+
+```python
+def OddIntegerSummation(n):
+    assert n > 0
+    if(n == 1):
+        return 1
+    else:
+        partialSum = sumOddNumbers(n - 1)
+        return ((n * 2) - 1) + partialSum
+```
+
+Add details for recursice sorting....
+
+It's possible to write both iterative and recursive versions of most algorithms, but it's not necessarily any faster, both versions of selection sort are still _O(n2)_
+because they have one loop nested inside of another. In the recursive version the outerloop is recursive, and the inner loop is iterative. Whereas in the iterative version both loops are iterative. But it's still worth using recursion because:
+
+- often it's easier to see algorithms in the recursive form (perhaps with more practice? - update this).
+- Many problems are recursive in nature and lend themselves to such a solution
+- recursive problems are often shorter, simpler and more elegant then the iterative versions
+- However, deep recursions can weigh heavily on resources such as memory, due to the amount of stack frames created.

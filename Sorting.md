@@ -1,4 +1,4 @@
-# Naive Sorting Revision
+# Naive Sorting
 
 ## Normal/Short bubble sort
 
@@ -26,7 +26,7 @@ However, insertion sort does not work by exchanging elements, but by shifting th
 
 **_Taking the unit of computation to be the comparison, in the best case, then, the insertion sort’s complexity is O(n). In the worst case, it is O(n2)._**
 
-## Recap
+## Recap on iterative sorts
 
 Short bubble sort is clearly the worst algorithm here. It makes as many comparisons as the other two, and generally makes many more swaps than the insertion or selection sorts.
 
@@ -46,3 +46,27 @@ There are two possible units of computation:
 In evaluating the complexity of an algorithm, the cost of comparing and of swapping two items is considered to be the same – O(1). However, in actual programs swapping is likely to be more expensive than comparing, so an O(n2) sorting algorithm that makes many swaps may actually run slower than an O(n2) algorithm that makes fewer, even on the same input. Most benchmark tests indicate that it is always better to try to minimise – if we can – the number of swaps.
 
 **_Bubble sort, insertion sort and selection sort all  use one loop nested inside another. Thus, we have to multiply the number of computational steps which makes them O(n2)._**
+
+---
+
+## Recursive sorting
+
+### Merge Sort
+
+Merge sort is a recursive algorithm that continually splits a list in half, in effect using a divide and conquer technique which improves performance over sorting algorithms.
+
+It initially checks the base case (list is empty or has one element), then recursivly invokes a merge sort on both halves of the split list.
+
+In general the merge sort a merge sort is a _O(n log n)_. Dividing a list in half is is _log2 n_, where n is the length of the list, the next step is mergeing which results in a list of size n, of which requires n operations. The result being log n splits, each of which cost n for a total of _n log n_ operations.
+
+### Quick sort
+
+Quick sort relies on a partitioning process in which a value is selected from the list and assigned to a variable pivotValue. Two pointers, leftmark and rightmark, are then progressively moved rightwards from the beginning, and leftwards from the end of the list. As the pointers move towards one another, items indicated by the left pointer that are greater than pivotValue are swapped with items indicated by the right pointer that are less than pivotValue.
+
+When the pointers cross, the list is split into two partitions at the position at which the pointers have met, and quick sort is recursively performed on each of these two partitions.
+
+The complexity of quick sort is O(n log n).
+
+Quick sort is one of the fastest known sorting algorithms, however the choice of pivot can greatly affectthe performance. In the best case, the pivot will split the list into two equal parts, in which the number of comparisions wil be _(n log n)_.  It can be shown that the total number of swaps in this case will be (n log n)/6. However, as the probability of the pivot being the exact median of the list is only 1/n on each iteration. In the average case, with the pivot being chosen at random, quick sort is O(n log n).
+
+The worst case for quick sort  is when the pivot chosen at each step happens to be the largest or smallest item in the partition. The two new partitions formed will then be 0 and n − 1 items long. At the next step, sorting the partition of n − 1 items, picking the largest or smallest item as pivot, produces partitions of size 0 and one of size n − 2, … and so on. In this way, the list has to be split n times, and quick sort’s performance is then O(n2). It will also mean that the recursive version will require more memory for its stack, making the algorithm even less efficient.
