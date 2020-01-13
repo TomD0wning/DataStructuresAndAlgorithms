@@ -54,3 +54,12 @@ A tree is either empty or consists of a root and zero or more subtrees, each of 
 ### Binary Trees
 
 ![Recursive Binary Tree](./images/RecursiveBinaryTree.png)
+
+- A complete binary tree is a binary tree in which all parents have two children, except for the parents of children at the bottom level of the tree. At the bottom level, all nodes must be as far to the left as possible.
+
+
+### Traversing a tree
+
+- Traversing a tree simply means visiting every node in it. 
+
+- Three ways of traversing a tree are presented: preorder, postorder and inorder.
