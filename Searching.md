@@ -1,4 +1,4 @@
-# Seaching
+# Searching
 
 Searching is one of the most common operations in computing. In fact, solving most problems computationally can be seen as a form of search – looking for an answer amid a multitude of possibilities.
 
@@ -94,9 +94,289 @@ def quickSelect(k, aList):
         return quickSelect(k - len(leftPart) -1, rightPart)
 ```
 
-## Searching for Patterns
+---
 
+## Searching for Patterns
 
 ### Basic string search
 
+A basic strategy to find a string within a sequence would be to start at the first charcter _S_ then compare the characters in the target string _T_ one be one until a match is found, if not the second chacter in _S_ is set as the start postion and the check repeats.
 
+![Basic string search](./images/BasicStringSearch.png)
+
+A algorithm for this search would consist of:
+
+- The outer loop will step over _S_ one position at a time using a variable searchIndex, say, to hold the position in _S_. It will terminate either when a match is found, or when searchIndex plus the length of _T_ becomes greater than the length of _S_.
+
+- the inner loop steps over _T_ one position at a time using a variable targetIndex, say, to hold the position in _T_, comparing the current character in each string: that is, comparing the targetIndexth item in _T_ with the (searchIndex + targetIndex)th item in _S_. It terminates either when there is a mismatch, or when all characters in _T_ have been compared against the corresponding characters in _S_.
+
+- If targetIndex is equal to the length of _T_ when the inner loop exits, then all characters of _T_ have been matched and the algorithm can return the current value of searchIndex as the location in _S_ at which _T_ has been found. If the outer loop exits with no match having been found, the algorithm returns −1 to indicate failure
+
+written in structured english:
+
+```python
+set searchIndex to 0
+
+ITERATE while searchIndex + length of T is less than or equal to length of S
+
+    set targetIndex to 0
+
+    ITERATE while targetIndex is less than length of T and
+             item at targetIndex in T is equal to
+             item at searchIndex + targetIndex in S
+
+        set targetIndex to targetIndex + 1
+
+    IF targetIndex is equal to length of T
+
+        return searchIndex
+
+    set searchIndex to searchIndex + 1
+
+return -1
+```
+
+A python implementation:
+
+```python
+def basicStringSearch(searchString, target):
+    searchIndex = 0
+    while searchIndex + len(target) <= len(searchString):
+        targetIndex = 0
+        while (targetIndex < len(target)) and target[targetIndex] == searchString[targetIndex + searchIndex]:
+            targetIndex = targetIndex + 1
+        if targetIndex == len(target):
+            return searchIndex
+        searchIndex = searchIndex + 1
+    return -1
+```
+
+As this is a brute force approach, it's not performant. Every possibility is tried until an occurance of _T_ is found or _S_ is exhausted. The worst case is when the outer loop runs all the way to the end of S, and each execution of the inner loop runs all the way to the end of _T_. This will happen if on each comparison of _T_ against _S_ a mismatch doesn’t occur until the last character of _T_.
+
+If that's the worst case then the the complexity of the basic string search algorithm for a target string _T_ of _m_ characters, and a search string _S_ of _n_ characters, since _T_ is only matched for the last position in _S_ and the last position in _T_ the algorithm will need to make _m_ comparisons on every execution of its inner loop. And it will have to do this all the way along _S_, from position _0_ to position _n − m_, i.e. there will be _n − m + 1_ executions of the inner loop. (This will also be true in the other worst case, where _T_ is not matched anywhere in _S_ at all.) Thus the total number of comparisons will be:
+
+(n − m + 1) × m = mn − m2 + m.
+
+Since _n > m_ (generally, _n_ is much larger than _m_), the term _mn_ quickly dominates, so the algorithm is _O(mn)_, which is hardly very efficient. In fact, since _n > m_, _O(mn) > O(m2)_. An algorithm with complexity _O(n)_ would be perffered, so that the running time mainly depends on the length of _S_ and is fairly insensitive to the length of _T_.
+
+## Quick Search
+
+Rarther than checking each character in _S_ against _T_, a more performant approach is to for each character in _T_ calculate the number of positions to shift _T_ if a comparison fails, according to where (if at all) that character appears in _T_.
+
+Repeatedly compare the characters of _T_ with those of _S_. If a comparison fails, examine the next character along in _S_ and shift _T_ by the calculated shift distance for that character.
+
+Do this until an occurrence of _T_ in _S_ is found, or the end of _S_ is reached. The part of the algorithm calculating the shifts depends entirely on an analysis of the target string _T_ – there is no need to examine the search string _S_ at all because for any character in _S_ that is not in _T_, the shift is a fixed distance.
+
+To begin with, build a DB of the characteristics of T. The DB is called a **shift table** and it stores a **shift distance** for each character in the alphabet.
+
+The shift distance is calculated according to the following rules:
+
+- If the character does not appear in _T_, the shift distance is one more than the length of _T_.
+- If the character does appear in _T_, the shift distance is the first position at which it appears, counting from right to left and starting at 1.
+
+For example, suppose the alphabet is {G, A, C, T} and the target string T is TCCACC. First, we number the characters of T from right to left starting at 1.
+
+```json
+TargetString:
+TCCACC
+654321
+```
+
+Now apply the rules above and draw up the shift table:
+
+1. G does not appear in T, so the shift for G is one more than the length of T, i.e. 7.
+2. A first occurs in T at position 3, so the shift for A is 3.
+3. C first occurs in T at position 1, so the shift for C is 1.
+4. T first occurs in T at position 6, so the shift for T is 6.
+
+| G | A | C | T |
+|:---:|:---:|:---:|:---:|
+| 7 | 3 | 1 | 6 |
+
+A shift table for the target string T = TGGCG would be:
+
+| T | G | C |
+|:---:|:---:|:---:|
+| 5 | 1 | 2 |
+
+Once the shift table has been computed, the search part of the quick search algorithm is similar to the basic string search algorithm, except that at the end of each failed attempt we look at the next character along in _S_ that is beyond _T_ and use this to look up in the shift table how many steps to slide _T_.
+
+![Search using a shift table](./images/ShiftTableExample.png)
+
+To create the **Shift table** the target string needs to be iterated and the shift indexes added to a collection that uses _key value pairs_ (ie a Dictionary) along with key, which in this case is the character.
+
+This iteration and updating of shiftTable iin the structured English:
+
+```python
+ITERATE for each i between 0 and the length of target − 1
+
+    set char to item at i in target
+
+    set shift to length of target − i
+
+    set the value of shiftTable entry with key char to shift
+
+This translates straight into Python as follows:
+
+for i in range(len(target)):
+
+    char = target[i]
+
+    shift = len(target) - i
+
+    shiftTable[char] = shift
+```
+
+Even if a character appears more than once in the target string the shift table is updated to use the last occurance, also as the values are checked from left to right, the final table with consist of the rightmost occurances of the characters. If the character does not appear then they will have the default value of `len(target) + 1`, as the rules specifiy.
+
+ Bringing together the modifications to the basic string search, the strucutred english for the quick search algorithm is:
+
+ ```python
+
+build shiftTable
+
+set searchIndex to 0
+
+ITERATE while searchIndex + length of T is less than or equal to length of S
+
+    set targetIndex to 0
+
+    ITERATE while targetIndex is less than length of T and
+             item at targetIndex in T is equal to
+             item at searchIndex + targetIndex in S
+
+        set targetIndex to targetIndex + 1
+
+    IF targetIndex is equal to length of T
+
+        return searchIndex
+
+    IF searchIndex + length of T is less than length of S
+
+        set next to item at searchIndex + length of T in S
+
+        set shift to value of key next in shiftTable
+
+        set searchIndex to searchIndex + shift
+
+    ELSE
+
+        return –1
+
+return –1
+ ```
+
+In python
+
+```python
+def buildShiftTable(target, alphabet):
+    shiftTable = {}
+    for character in alphabet:
+        shiftTable[character] = len(target) + 1
+    for i in range(len(target)):
+        char = target[i]
+        shift = len(target) - i
+        shiftTable[char] = shift
+    return shiftTable
+
+
+def quickSearch (searchString, target, alphabet):
+    shiftTable = buildShiftTable(target, alphabet)
+    searchIndex = 0
+
+    while searchIndex + len(target) <= len(searchString):
+        targetIndex = 0
+        while targetIndex < len(target) and target[targetIndex] == searchString[searchIndex + targetIndex]:
+            targetIndex = targetIndex + 1
+        if targetIndex == len(target):
+            return searchIndex
+        if searchIndex + len(target) < len(searchString):
+            next = searchString[searchIndex + len(target)]
+            shift = shiftTable[next]
+            searchIndex = searchIndex + shift
+        else:
+            return -1
+    return -1
+```
+
+## Knuth–Morris–Pratt (KMP)
+
+In the KMP algorithm, for each character in the target string T we identify the longest substring of T ending with that character which matches a prefix of the target string. These lengths are stored in what is known as a prefix table (represented as a list in the examples below).
+
+consider the target string _T_:
+
+```GGATTGGATCACGG```
+
+Starting with the first character of _T_, which is G, there are obviously no matching prefix substrings prior to it, because there is nothing prior to it. So our prefix table at this point is simply:
+
+```[0]```
+
+However, up to the second character of _T_, we have GG. The substring G of length 1 ending with the second character of _T_ matches the substring G at the start of _T_; that is, it matches the prefix G. Thus, we store 1 for this character and the prefix table is now:
+
+```[0, 1]```
+
+Moving on, up to the third character, A, we have GGA. There are no substrings matching a prefix here, so we enter 0 in the prefix table. Up to the fourth character we have GGAT. Again there are no matches. The same is true for the fifth character, so the prefix table so far looks like this:
+
+```[0, 1, 0, 0, 0]```
+
+However, things get a bit more interesting later in the target string.
+
+Up to the sixth character we have GGATTG. The substring G at the start of _T_ matches the substring G ending with the sixth character. So the length 1 is stored in the prefix table.
+
+Up to the seventh character we have GGATTGG. Using the same reasoning, GG at the start of _T_ matches the substring GG ending with the seventh character, so 2 is entered into the prefix table next.
+
+Then up to the eighth character we have GGATTGGA. GGA at the start of _T_ matches the substring GGA ending with the eighth character and so the eighth entry in the prefix table will be 3, giving us a table up to this point of:
+
+```[0, 1, 0, 0, 0, 1, 2, 3]```
+
+The final table would look like
+
+```[0, 1, 0, 0, 0, 1, 2, 3, 4, 0, 0, 0, 1, 2]```
+
+the problem is to know if these prefix matches exist and – if they do – how long the matching substrings are. The KMP algorithm, therefore, is in two parts:
+
+- Build a table of the lengths of prefix matches up to every character in the target string, _T_.
+- Move along the search string, _S_, using the information in the table to do the shifting, as described above, and comparing in the usual fashion.
+
+Once the prefix table has been built, the actual search in step 2 proceeds like the other string-searching algorithms we have looked at, but when a mismatch is detected the algorithm uses the prefix table to decide how to shift _T_. The prefix will then be aligned as shown below and comparison can continue at the next character in _S_.
+
+![Restarting comparison after matching](./images/RestartingComparisonAfterMatching.png)
+
+What about the complexity of the KMP algorithm? Computing the prefix table takes significant effort but in fact there is an efficient algorithm for doing it. Overall, the KMP algorithm has complexity _O(m + n)_, where _m_ is the length of _T_ and _n_ is the length of _S_. Since _n_ is usually enormously larger than _m_ (think of searching a DNA string of billions of bases), _m_ is usually dominated by _n_, so this means that KMP has effective complexity _O(n)_.
+
+A python implementation:
+
+```python
+def buildPrefixTable(target):
+    prefixTable = [0] * len(target)
+    q = 0
+    for p in range(1, len(target)):
+        while q > 0 and target[q] != target[p]:
+            q = prefixTable[q - 1]
+        if target[q] == target[p]:
+            q = q + 1
+        prefixTable[p] = q
+    return prefixTable
+
+def kmpSearch(searchString, target):
+    n = len(searchString)
+    m = len(target)
+    prefixTable = buildPrefixTable(target)
+    q = 0
+    for i in range(n):
+        while q > 0 and target[q] != searchString[i]:
+            q = prefixTable[q - 1]
+        if target[q] == searchString[i]:
+            q = q + 1
+        if q == m:
+            return i - m + 1
+    return -1
+```
+
+## Boyer–Moore algorithm
+
+TODO - Research this and write notes
+
+---
+
+## Hashing and hash tables

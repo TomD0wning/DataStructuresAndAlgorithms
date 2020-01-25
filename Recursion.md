@@ -190,4 +190,11 @@ because they have one loop nested inside of another. In the recursive version th
 - recursive problems are often shorter, simpler and more elegant then the iterative versions
 - However, deep recursions can weigh heavily on resources such as memory, due to the amount of stack frames created.
 
+## Towers of Hanoi
 
+The towers of hanoi is a prime example of where recursion can make solving a problem simpler and more straight forward than without. 
+
+```python
+    def move(a,b):
+
+```
