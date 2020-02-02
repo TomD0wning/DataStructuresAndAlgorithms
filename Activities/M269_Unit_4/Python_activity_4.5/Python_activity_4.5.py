@@ -31,8 +31,17 @@ def getMiddle(aNumber):
 
 # Write your functions here:
 
+def hashFold(num, tableSize):
+    sum = 0
+    splitNum = chopIntoPairs(num)
+    for p in range(len(splitNum)):
+        sum = sum + splitNum[p]
+    
+    return sum%tableSize
 
 
+def hashMidSquare(num, tableSize):
+    return (getMiddle((num*num))%tableSize)
 
 
 

@@ -12,6 +12,11 @@
 3. [Hashing and hash tables](#Hashing-and-hash-tables)  
     a. [Collision resolution](#Collision-resolution)  
     b. [Analysis of hashing](#Analysis-of-hashing)
+4. [Search Trees](#Search-trees)  
+    a. [Binary trees](#Binary-trees)  
+    b. [AVL trees](#AVL-trees)
+
+---
 
 ## Introduction
 
@@ -415,7 +420,7 @@ Taking a sample list of 56,26,93,17,77,31 and applying the remainder method, the
 77|0
 31|9
 
-Once the hash values have been computedm each item can be instered into the hash table at the designated position, shown in the table above. The amount of occupied slots is known as the **load factor** , denoted by _λ = numberofitem/tablesize_.
+Once the hash values have been computedm each item can be instered into the hash table at the designated position, shown in the table above. The amount of occupied slots is known as the **load factor** , denoted by _```λ = numberofitem/tablesize```_.
 
 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -431,6 +436,25 @@ One way to achieve a perfect hash function is to increase the size of the hash t
 
 the folding method is an extension of this, it begins by dividing the item into equal-sizes (the last item may be an exception). These pieces are then added together to give the resulting hash value. For instance take the number 436-555-4601, the digits would be divided into groups of 2 (43,65,55,46,01), then after the addition, we would get 210, then taking the 11 slot hash table above using the remainder method (_210 % 11 == 1_) the item would be placed into slot 1 of the hash table. Other folding methods go further and reverse every other piece of the item before the addition step, using the same number the reverse method would give (_43+56+55+64+01 = 219_), then applying the remainder method, (_219 % 11 = 10._)
 
+Folding method in python
+
+```python
+def chopIntoPairs(aNumber):
+    numString = str(aNumber)
+    pairs = []
+    for i in range( 0,len(numString), 2):
+        pairs.append(int(numString[i: i + 2]))
+    return pairs
+
+def hashFold(num, tableSize):
+    sum = 0
+    splitNum = chopIntoPairs(num)
+    for p in range(len(splitNum)):
+        sum = sum + splitNum[p]
+
+    return sum%tableSize
+```
+
 Another numerical technique for constructing a hash function is called the **mid-square method**. Which starts by squaring the item, then extracting some portion of the resulting value. Take 44 as an example, this would be squared to give 44<sup>2</sup> = 1936, then taking the middle two digits and performing the remainder step (_93%11 == 5_)
 
 | Item | Remainder | Mid-square |
@@ -441,6 +465,22 @@ Another numerical technique for constructing a hash function is called the **mid
 17|6 | 8
 77|0 | 4
 31|9 | 6
+
+Python example of mid-sqaure
+
+```python
+def getMiddle(aNumber):
+    numString = str(aNumber)
+    midPoint = len(numString) // 2
+    if (len(numString) % 2) == 0:
+        middle = int(numString[midPoint - 1:midPoint + 1])
+    else:
+        middle = int(numString[midPoint])
+    return middle
+
+def hashMidSquare(num, tableSize):
+    return (getMiddle((num*num))%tableSize)
+```
 
 Hash functions can also be used for character based items such as strings. Any string can be thought of as a sequence of ordinal values. Take the string "cat" this can be converted to ordinal values, which can be summed and then the remainder method used to get the hash value.
 
@@ -487,3 +527,15 @@ In the best case hashing would provide a O(1) constant time search technique, ho
 In general the most important piece of information needed to analyse the use of a hash table is the **load factor**, **λ**. Conceptually if λ is small, then there is a lower chance of collisons, meaning that the table is filling up, slots where they belong. If λ is large , meaning the table is filling up then there are more and more collisions. this means that collision resolution is more difficult, requiring more comparisions to find an empty slot. With chaining, increaded collisions means an increased number of items on each chain.
 
 Using **open addressing** with **linear probing** the average number of comparisions is aproximately 1/2(1+1/1-λ) with an unsuccessful search giving 1/2(1+(1/1-λ)<sup>2</sup>). If chaining is used then the average is (1+ λ/2) for a successful case, is unsuccessful then λ comparisions.
+
+## Search Trees
+
+A search tree is a tree data structure used for locating specific keys from within a set. In order for a tree to function as a search tree, the key for each node must be greater than any keys in subtrees on the left, and less than any keys in subtrees on the right.
+
+The advantage of search trees is that their efficient search time given the tree is reasonably balanced, which is to say the leaves at either end are of comparable depths. Various search-tree data structures exist, several of which also allow efficient insertion and deletion of elements, which operations then have to maintain tree balance.
+
+Search trees are often used to implement an associative array. The search tree algorithm uses the key from the key-value pair to find a location, and then the application stores the entire key–value pair at that particular location.
+
+### Binary Trees
+
+
