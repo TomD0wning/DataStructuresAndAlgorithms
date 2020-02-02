@@ -1,5 +1,20 @@
 # Searching
 
+## Contents
+
+1. [Introduction](#Introduction)
+
+2. [Searching for Patterns](#Searching-for-Patterns)  
+    a. [Quick Search](#Quick-Search)  
+    b. [Knuth–Morris–Pratt (KMP)](#Knuth–Morris–Pratt-(KMP))  
+    c. [Boyer–Moore algorithm](#Boyer–Moore-algorithm)
+
+3. [Hashing and hash tables](#Hashing-and-hash-tables)  
+    a. [Collision resolution](#Collision-resolution)  
+    b. [Analysis of hashing](#Analysis-of-hashing)
+
+## Introduction
+
 Searching is one of the most common operations in computing. In fact, solving most problems computationally can be seen as a form of search – looking for an answer amid a multitude of possibilities.
 
 For instance finding the median in a list is a typical searching problem
@@ -12,7 +27,7 @@ Sorting the lists we get:
 
 [2, 3, 4, 5, 6, 8, 9, 15, 17, 19, 31, 37].
 
-therfore the median of the first list is 8 and the second list is 8.5 ((8+9)/2).
+therefore the median of the first list is 8 and the second list is 8.5 ((8+9)/2).
 
 A median-finding problem is one instance of a more general problem of selection. Given an unordered list of n numbers, the selection task is to return the kth smallest item in the list. So, if k = 1 then we are looking for the smallest value in the list; k = 2 is the next smallest item after the minimum; and so on up to k = n, which is the maximum. So, the median-finding problem is just the selection problem with k = (n + 1)/2 if n is odd. (If n is even, then the median is the mean of the kth and (k +1)th smallest items, where k = n/2.)
 
@@ -380,3 +395,95 @@ TODO - Research this and write notes
 ---
 
 ## Hashing and hash tables
+
+A hash table is a collection of items which are stored in such a way as to make it easy to find them later. Each position of the hash table, often called a **slot**, can hold an item and is named by an integer value startning at 0. Initially the hash table contains no items so every slot is empty.
+
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| null | null | null | null | null | null | null | null | null | null | null
+
+The mapping between an item and the slot, where that item belongs in the has table is called a **hash function**. The has function will take any item in the collection and return an integer in the range of slot names, between _0_ & _m-1_. One method of determing the hash value is called the **remainder method**, which works by taking an item and dividing by the table size, returning the remainder as the hash value _(h(item) = item%11)_ (modulo arithmetic).
+
+Taking a sample list of 56,26,93,17,77,31 and applying the remainder method, the hash values would be
+
+| Item | Hash value |
+|:---:|:---:|
+54|10
+26|4
+93|5
+17|6
+77|0
+31|9
+
+Once the hash values have been computedm each item can be instered into the hash table at the designated position, shown in the table above. The amount of occupied slots is known as the **load factor** , denoted by _λ = numberofitem/tablesize_.
+
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| 77 | null | null | null | 26 | 93 | 17 | null | null | 31 | 54 |
+
+Now when searching for an item in the table, the hash function can be used to check if an item is present in the table. This operation is _O(1)_, since a constant amount of time is required to compute the hash value and then index the hash table at that location, assuming everything is where is should be this is a constant time search algorithm.
+
+However a problem occurs when two or more items have the same hash value (44%11 == 0 & 77%11 == 0 ), this causes a **collision** or **clash**. (See [Collision resolution](#Collision-resolution))
+
+Given a collection of items, a hash function that maps each item into a unique slot is referred to as a **perfect hash function**. If it's known that the items in the collection will not change then it's possible to construct a perfect hash function. However given an aribtory collection of items there is no way to construct a perfect hash function, however to still gain performance efficiency the has function does not need to be perfect.
+
+One way to achieve a perfect hash function is to increase the size of the hash table however this is only feasable with small numbers, a collection of 9 digit numbers for instance would almost 1 billion slots, potentially wasting huge amounts of memeory. In order to create a hash function that minimises the number of collisions, is easy to compute and evenly distributes  the items, the remainder method needs to be extended.
+
+the folding method is an extension of this, it begins by dividing the item into equal-sizes (the last item may be an exception). These pieces are then added together to give the resulting hash value. For instance take the number 436-555-4601, the digits would be divided into groups of 2 (43,65,55,46,01), then after the addition, we would get 210, then taking the 11 slot hash table above using the remainder method (_210 % 11 == 1_) the item would be placed into slot 1 of the hash table. Other folding methods go further and reverse every other piece of the item before the addition step, using the same number the reverse method would give (_43+56+55+64+01 = 219_), then applying the remainder method, (_219 % 11 = 10._)
+
+Another numerical technique for constructing a hash function is called the **mid-square method**. Which starts by squaring the item, then extracting some portion of the resulting value. Take 44 as an example, this would be squared to give 44<sup>2</sup> = 1936, then taking the middle two digits and performing the remainder step (_93%11 == 5_)
+
+| Item | Remainder | Mid-square |
+|:---:|:---:|:---:|
+54|10| 3
+26|4 | 7
+93|5 | 9
+17|6 | 8
+77|0 | 4
+31|9 | 6
+
+Hash functions can also be used for character based items such as strings. Any string can be thought of as a sequence of ordinal values. Take the string "cat" this can be converted to ordinal values, which can be summed and then the remainder method used to get the hash value.
+
+```python
+def hash(str,tableSize):
+    sum = 0
+    for p in range(len(str)):
+        sum = sum + ord(str[pos])
+    return sum%tableSize
+```
+
+This method will return the hash value in the range of tablesize-1. However a collision issue arises when the string is an anagram, to get around this the position of the character in the string can be used as a weight.
+
+```python
+def weightedHash(str, tableSize):
+    sum = 0
+    for p in range(len(str)):
+        sum = sum + (ord(str[pos])*str[pos])
+    return sum%tableSize
+```
+
+Regardless of the hash function, whats important is that the function has to be effcient so that it does not become the dominant part of the storage and search process. If the hash function is too complex then it becomes more work to compute the slot name than it would be to do a basic sequential or binary search, defeating the point of hashing.
+
+## Collision resolution
+
+When two items hash to the same slot, a systematic way of placing the second item in the hash table needs to be in place, this is known as **collision resolution** , which becomes very important part of hashing.
+
+A method for resolving collisions looks into the hash table and tries to find another open slot to hold the **clashed** item, simply by starting at the original hash value position and sequentially checking the slots until an empty one is encountered, going to the first slot may also be required to cover the entire hash table, this is referred to as **open addressing** in so far as it tries to find the next open slot or address. **Open addressing**, uses a technique called [Linear probing](https://en.wikipedia.org/wiki/Linear_probing).
+
+Using open addressing to solve collisions means that the same method must be utilised to search for items as there could have been collisions means that the items have shifted in the hash table, therfore a sequential search must be done to determine if the item is present in any of the slots after the search index. Another disadvantage of **Linear probing** is the tendency for **clustering**, if too many collisions occur at the same hash value, a number of surronding slots will be filled by the **linear probing** resolution, having an impact on the other items that are being inserted.
+
+One way to deal with **clustering** is to extend the **linear probing** technique, so that instead of looking sequentially for the next open slot, slots are skipped, thereby more evenly distributing the items that have caused collisions, commonlly called the **plus 3 probe** as 3 slots are skipped when placing the clashed value.
+
+The general name for the process of looking for another slot after a collision is called **rehashing**, with simple linear probing the rehashfunction is ```newHashValue = rehash(oldHashValue)```, where ```rehash(pos) = (pos + 1)%sizeOfTable```. The plus 3 rehash can be defined as ```rehash(pos) = (pos + 3)%sizeOfTable```, more generally ```rehash(pos) = (pos + skip)%sizeOfTable```. It's important that the size of the skip be such that all slots in the table will be visited, otherwise part of the table will be unused. A useful method for this is to always use prime numbers (2, 3, 5, 7, 11, 13...)
+
+A variation of the linear probing idea is called **quadratic probing**. Instead of using a constant skip value, a rehash function that increments the hash value by primes. this means that is the first has value is _h_ then succesive values are _h+1, h+4, h+9, h+16_, essentially using a skip of succesive perfect squares.
+
+An alternate method for handling collisions is known as **Chaining**, this allows each slot to hold a reference to a collection (chain) of items. This allows many items to exist at the same location in the hash table and when a collision occurs the item is still places in the proper slot for the hash table, however as more items are added to the chain the difficulty of searcing for the item increases. Since each slot holds a collection a serching technique needs to be used to determine if the item is present, the advantage being that there is likly to be fewer items in the chain.
+
+## Analysis of hashing
+
+In the best case hashing would provide a O(1) constant time search technique, however due to collisions and the number of comparisions this is typically not simple.
+
+In general the most important piece of information needed to analyse the use of a hash table is the **load factor**, **λ**. Conceptually if λ is small, then there is a lower chance of collisons, meaning that the table is filling up, slots where they belong. If λ is large , meaning the table is filling up then there are more and more collisions. this means that collision resolution is more difficult, requiring more comparisions to find an empty slot. With chaining, increaded collisions means an increased number of items on each chain.
+
+Using **open addressing** with **linear probing** the average number of comparisions is aproximately 1/2(1+1/1-λ) with an unsuccessful search giving 1/2(1+(1/1-λ)<sup>2</sup>). If chaining is used then the average is (1+ λ/2) for a successful case, is unsuccessful then λ comparisions.
