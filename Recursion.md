@@ -1,6 +1,20 @@
 
 # Recursion and more
 
+## Contents
+
+1. [Introduction](#Introduction)
+
+2. [Induction](#Induction)  
+
+3. [Reduction](#Reduction)  
+
+4. [Recursion](#Recursion)  
+
+## Introduction
+
+TODO - write intro
+
 ## Induction
 
 The goal of mathematical proof is to establish a proposition to be certainly true, not just in individual cases, but in all cases to which the proposition applies
@@ -192,9 +206,18 @@ because they have one loop nested inside of another. In the recursive version th
 
 ## Towers of Hanoi
 
-The towers of hanoi is a prime example of where recursion can make solving a problem simpler and more straight forward than without. 
+The towers of hanoi is a prime example of where recursion can make solving a problem simpler and more straight forward than without. To solve this with recursion, n
 
 ```python
-    def move(a,b):
+def move(x,y):
+    print("Move {} to {}".format(x,y))
 
+
+def towersOfHanoi(diskQty, fromPos, midPos, targetPos):
+    if diskQty == 0:
+        pass
+    else:
+        towersOfHanoi(diskQty-1,fromPos,targetPos,midPos)
+        move(fromPos,targetPos)
+        towersOfHanoi(diskQty-1,midPos,fromPos,targetPos)
 ```

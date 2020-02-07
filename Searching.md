@@ -13,7 +13,7 @@
     a. [Collision resolution](#Collision-resolution)  
     b. [Analysis of hashing](#Analysis-of-hashing)
 4. [Search Trees](#Search-trees)  
-    a. [Binary trees](#Binary-trees)  
+    a. [Binary Search Trees](#Binary-Search-Trees)  
     b. [AVL trees](#AVL-trees)
 
 ---
@@ -530,12 +530,189 @@ Using **open addressing** with **linear probing** the average number of comparis
 
 ## Search Trees
 
+See [Trees and Heaps](./TreesandHeaps) for specific details on implementing basic trees and heaps. This section is only concerned with the specifics of Binary Search Trees and AVL trees
+
 A search tree is a tree data structure used for locating specific keys from within a set. In order for a tree to function as a search tree, the key for each node must be greater than any keys in subtrees on the left, and less than any keys in subtrees on the right.
 
 The advantage of search trees is that their efficient search time given the tree is reasonably balanced, which is to say the leaves at either end are of comparable depths. Various search-tree data structures exist, several of which also allow efficient insertion and deletion of elements, which operations then have to maintain tree balance.
 
 Search trees are often used to implement an associative array. The search tree algorithm uses the key from the key-value pair to find a location, and then the application stores the entire key–value pair at that particular location.
 
-### Binary Trees
+### Binary Search Trees
 
+Like a binary heap, a BST is a binary tree (every parent node has at most two children). However, the BST differs from the heap in two important ways:
 
+- It need not be a complete tree.
+- The BST ordering property is that for every node p, all the keys within p’s left subtree are  less than the key of p; and all the keys within p’s right subtree are greater than the key of p. In other words a Binary search tree is a binary tree in which a node has a value greater than all values in its left subtree and smaller than all values in its right subtree.
+
+For example [10, 4, 32, 12, 9, 55, 92, 97, 36, 41, 34]  as a BST would look like:
+
+![Basic BST](./images/BSTOrderingExample.png)
+
+Note that the ordering property is preserved: for any given node, all the nodes within its left subtree are all strictly smaller than that node, and all the nodes within its right subtree are greater than it. In general a node in a BST has not only a key but also a value associated with it, sometimes known as the **payload**. Items are stored in, and retrieved from, a BST through their keys.
+
+![Basic BST with payload](./images/BSTWithPayload.png)
+
+Efficiently searching a BST is similer to the way a binary search works, in so far as in binary search of a list, we split the list into left and right partitions, and then search either the left or the right partition, according to the search value. In a binary search tree, we search the left or the right subtree of a node, according to the key we are searching for. This efficiny takes advantage of the ordering rule, an algorithm written in structured english for this would look like:
+
+```python
+set current node to the root
+
+set found to False
+
+set done to False
+
+ITERATE while done is False and found is False
+
+    IF the search key is the key of the current node
+
+        set found to True
+
+    ELSE
+
+        IF the search key is less than the key of the current node
+
+            IF there is a left child
+
+                set current node to the left child
+
+            ELSE
+
+                set done to True
+
+        ELSE
+
+            IF there is a right child
+
+                set current node to the right child
+
+            ELSE
+
+                set done to True
+
+return found
+```
+
+A binary search tree is just a collection of appropriately connected **TreeNodes**, with one of these especially designated as the root as below:
+![Binary search tree](./images/BinarySearchTree.png)
+
+### Inserting a node
+
+Inserting a node into a binary tree is a relatively simple operation, because all we are concerned with is preserving the ordering of the tree. Where a new node will go in the BST of course depends on its key and on the state of the tree before the addition. Suppose we are trying to insert a node N with key k into the tree. First of all, there are two main cases to consider:
+
+- The tree is empty. In this case, N simply becomes the root.
+- The tree already contains nodes. In this case, we have to make sure we observe the ordering property of the tree in finding the right place to insert the new node. We start by setting the current node to the root.
+
+Now if we home in on case 2, we can see that there are two possibilities:
+
+- If k is less than the key of the current node, then we need to find a place for N in the left subtree of the current node.
+- If k is greater than the key of the current node, then we need to find a place for N in the right subtree of the current node.
+
+In both these cases, there are two possibilities, applying equally to left or right subtrees:
+
+- If the subtree is empty, i.e. if leftChild (or rightChild) is None then N becomes the left (or right) child of the current node.
+ -If the subtree is not empty, then set the current node to be the left (or right) child of the current node and start again at step 3.
+
+In other words, start at the root and then descend the tree, branching left or right depending on the value of k, until a spot can be found to insert N.
+
+Integrating a new node into the tree is a matter of creating a new node, setting its key and payload, and then making sure the child and pointer references are set up. For instance, one such situation is illustrated below:
+
+![BST insertion](./images/BSTInsertion.png)
+
+This written as structured english
+
+```python
+IF root is None
+
+    set the root to N
+
+ELSE
+
+    set current to the root
+
+The second part of the insight can be represented as:
+
+IF k is less than the key of current
+
+    IF leftChild of current is None
+
+        set N to be the leftChild of current
+
+        set current to be the parent of N
+
+    ELSE
+
+        set current to the leftChild of current
+
+        insert N into the tree rooted at current *
+
+ELSE
+
+    IF rightChild of current is None
+
+        set N to the rightChild of current
+
+        set current to be the parent of N
+
+    ELSE
+
+        set current to the rightChild of current
+
+        insert N into the tree rooted at current *
+
+Note that the two lines marked with a * are recursive calls.
+```
+
+### Deleting a node
+
+Deleting a node in a BST is a rather more complex process than insertion. Once again, the change must preserve the tree’s ordering property, but the fact that the node we are trying to delete may have children which are not to be deleted could cause complications.
+
+Removing a node from a BST will also require some manipulation of parent and child pointers. For instance, the image below represents a situation in which a node with no children is deleted. The child pointer of the deleted node’s parent has to be adjusted to None.
+
+![BST Deletion no child](./images/BSTDeletionNoChild.png)
+
+below shows a node with one child being deleted. The parent pointer of N’s child is set to N’s parent. And N’s parent’s leftChild pointer is set to N’s child
+
+![BST Deletion no child](./images/BSTDeletionwithChild.png)
+
+Written in structured english
+
+```python
+IF N has no children
+
+    delete it and set its parent’s child pointer to None
+
+IF N has one child
+
+    IF N is a left child
+
+        make N’s child the left child of N’s parent
+
+    IF N is a right child
+
+        make N’s child the right child of N’s parent
+
+IF N has two children
+
+    find N’s successor
+
+    overwrite N’s data with that of N’s successor
+
+    delete N’s successor
+```
+
+### Complexity of BST
+
+The height of the BST may be highly variable, depending on the order in which the items were inserted into it. If n keys are inserted in random order, then the tree should be roughly balanced and the worst-case performance for locating an item will be O(log n). However, if n keys are inserted in sorted order then the BST will be of height n − 1 and worst-case retrieval will be O(n).
+
+It can be shown that exactly the same is true for the insert and delete operations. So we know the best- and worst-case performances.
+
+However, it is unlikely that we are going to get a perfectly balanced tree or a perfectly unbalanced tree. So what can we say about average-case performance of the BST operations on a BST formed by random insertions? It can be proved that the performance in this case is also O(log n)
+
+### AVL Trees
+
+The following diagram shows the balance factor of each node and the height of each sub-tree.
+
+The figure shows the same binary tree, but each node is annotated with its balancing factor and the height of the tree rooted at that node. The root 9 is annotated with balance factor 0 and height 2. At the next level, left child 7 is annotated with balance factor 0 and height 1, and right child 8 is annotated with balance factor 1 and height 1. At the lowest level are the leaves 4, 6 and 5, all with balance factor and height zero.
+
+Node 4 has 2 edges to the root, so has level 2. Node 4 is one of the deepest in the tree, so the tree’s height is also 2. Node 7 has both subtrees of the same height, so it has balance factor 0. Node 8 has balance factor 1, all others have 0, so the tree is balanced. The tree is a max heap: it’s complete and each child is smaller than its parent. The right child of 7 is smaller than 7, so it isn't a BST.

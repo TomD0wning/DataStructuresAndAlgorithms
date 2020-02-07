@@ -1,6 +1,11 @@
 # Trees And Heaps
 
-## Heaps
+## Contents
+
+1. [Trees](#Trees)  
+    a. [Traversing a tree](#Traversing-a-tree)  
+    b. [Binary Trees](#Binary-Trees)  
+2. [Heaps](#Heaps)
 
 ---
 
@@ -51,14 +56,20 @@ A tree consists of a set of nodes and a set of edges that connect pairs of nodes
 
 A tree is either empty or consists of a root and zero or more subtrees, each of which is also a tre. The root of each subtree is connected to the root of the parent tree. this is the recurisve definition
 
-### Binary Trees
-
-![Recursive Binary Tree](./images/RecursiveBinaryTree.png)
-
-- A complete binary tree is a binary tree in which all parents have two children, except for the parents of children at the bottom level of the tree. At the bottom level, all nodes must be as far to the left as possible.
-
 ### Traversing a tree
 
 - Traversing a tree simply means visiting every node in it.
 
 - Three ways of traversing a tree are presented: preorder, postorder and inorder.
+
+### Binary Trees
+
+A binary tree is defined as a tree in which each node has a maximum of two children. and a binary tree, each child of a node is designated as the left or right child
+
+![Recursive Binary Tree](./images/RecursiveBinaryTree.png)
+
+- A complete binary tree is a binary tree in which all parents have two children, except for the parents of children at the bottom level of the tree. At the bottom level, all nodes must be as far to the left as possible.
+
+
+
+## Heaps

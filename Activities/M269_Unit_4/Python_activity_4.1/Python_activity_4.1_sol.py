@@ -29,5 +29,5 @@ def quickSelect(k, aList):
 
 
 # Test the function
-theList = [2, 36, 5, 21, 8, 13, 11, 20, 4, 1]
-print(quickSelect(6, theList))
+theList = [9, 32, 16, 23, 9, 26, 8, 20, 18, 3]
+print(quickSelect(8, theList))
