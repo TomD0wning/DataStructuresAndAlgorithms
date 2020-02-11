@@ -206,7 +206,7 @@ because they have one loop nested inside of another. In the recursive version th
 
 ## Towers of Hanoi
 
-The towers of hanoi is a prime example of where recursion can make solving a problem simpler and more straight forward than without. To solve this with recursion, n
+The towers of hanoi is a prime example of where recursion can make solving a problem simpler and more straight forward than without.
 
 ```python
 def move(x,y):

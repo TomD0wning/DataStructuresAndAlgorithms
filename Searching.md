@@ -711,8 +711,30 @@ However, it is unlikely that we are going to get a perfectly balanced tree or a 
 
 ### AVL Trees
 
+AVL trees are named for it's inventors G.M Adelson-velskii and EM Landis and builds upon the principles of a BST.
+
+The main points that differentiate the difference between an BST and AVL tree are below:
+
+- A balanced BST is a BST with an additional constraint that the difference in height between any node’s left and right subtree must never exceed 1. Each node has an associated balance factor, which is calculated by subtracting the height of the node’s right subtree from the height of its left subtree. So a BST is unbalanced if any node in it has a balance factor not equal to −1, 0 or 1.
+- A special type of BST, the AVL tree, is always balanced (each node has a balance factor of −1, 0 or 1). If an AVL tree becomes unbalanced it has to be automatically rebalanced.
+- A subtree is left-heavy if the balance factor of its root node is greater than zero. It is right-heavy if this balance factor is less than zero.
+- A mathematical proof exists that the height h of an AVL tree will never be more than about 1.44 _log Nh_, where _Nh_ is the number of nodes in the tree. [AVL tree performance](#AVL-tree-performance)
+
 The following diagram shows the balance factor of each node and the height of each sub-tree.
 
-The figure shows the same binary tree, but each node is annotated with its balancing factor and the height of the tree rooted at that node. The root 9 is annotated with balance factor 0 and height 2. At the next level, left child 7 is annotated with balance factor 0 and height 1, and right child 8 is annotated with balance factor 1 and height 1. At the lowest level are the leaves 4, 6 and 5, all with balance factor and height zero.
+![AVL Tree balance](./images/AVLTreeBalance.png)
+
+ each node is annotated with its balancing factor and the height of the tree rooted at that node. The root 9 is annotated with balance factor 0 and height 2. At the next level, left child 7 is annotated with balance factor 0 and height 1, and right child 8 is annotated with balance factor 1 and height 1. At the lowest level are the leaves 4, 6 and 5, all with balance factor and height zero.
 
 Node 4 has 2 edges to the root, so has level 2. Node 4 is one of the deepest in the tree, so the tree’s height is also 2. Node 7 has both subtrees of the same height, so it has balance factor 0. Node 8 has balance factor 1, all others have 0, so the tree is balanced. The tree is a max heap: it’s complete and each child is smaller than its parent. The right child of 7 is smaller than 7, so it isn't a BST.
+
+The formula for this calculation is _balanceFactor = height(leftSubTree) - height(rightSubTree)_
+
+### AVL tree performance
+
+By ensuring that a tree always has a balance factor of -1,0,1 better Big-O performance of key operations is achieved.
+
+There are two possibilities to consider, a left heavy tree and a right heavy tree, taking tree heights of 0,1,2,3
+
+![AVL Tree examples](./images/LeftHeavyAVLTrees.png)
+
