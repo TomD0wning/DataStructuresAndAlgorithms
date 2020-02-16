@@ -10,7 +10,7 @@ from TMA01_Q4_stack import Stack
 
 def reverse_to_list(s):
     reversed_list = []
-    x = s.size();
+    x = s.size()
     while x != 0:
         reversed_list.append(s.items[x -1])
         x -=1

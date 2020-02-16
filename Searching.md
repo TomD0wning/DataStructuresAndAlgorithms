@@ -194,7 +194,7 @@ The shift distance is calculated according to the following rules:
 - If the character does not appear in _T_, the shift distance is one more than the length of _T_.
 - If the character does appear in _T_, the shift distance is the first position at which it appears, counting from right to left and starting at 1.
 
-For example, suppose the alphabet is {G, A, C, T} and the target string T is TCCACC. First, we number the characters of T from right to left starting at 1.
+For example, subpose the alphabet is {G, A, C, T} and the target string T is TCCACC. First, we number the characters of T from right to left starting at 1.
 
 ```json
 TargetString:
@@ -455,7 +455,7 @@ def hashFold(num, tableSize):
     return sum%tableSize
 ```
 
-Another numerical technique for constructing a hash function is called the **mid-square method**. Which starts by squaring the item, then extracting some portion of the resulting value. Take 44 as an example, this would be squared to give 44<sup>2</sup> = 1936, then taking the middle two digits and performing the remainder step (_93%11 == 5_)
+Another numerical technique for constructing a hash function is called the **mid-square method**. Which starts by squaring the item, then extracting some portion of the resulting value. Take 44 as an example, this would be squared to give 44<sub>2</sub> = 1936, then taking the middle two digits and performing the remainder step (_93%11 == 5_)
 
 | Item | Remainder | Mid-square |
 |:---:|:---:|:---:|
@@ -526,7 +526,7 @@ In the best case hashing would provide a O(1) constant time search technique, ho
 
 In general the most important piece of information needed to analyse the use of a hash table is the **load factor**, **λ**. Conceptually if λ is small, then there is a lower chance of collisons, meaning that the table is filling up, slots where they belong. If λ is large , meaning the table is filling up then there are more and more collisions. this means that collision resolution is more difficult, requiring more comparisions to find an empty slot. With chaining, increaded collisions means an increased number of items on each chain.
 
-Using **open addressing** with **linear probing** the average number of comparisions is aproximately 1/2(1+1/1-λ) with an unsuccessful search giving 1/2(1+(1/1-λ)<sup>2</sup>). If chaining is used then the average is (1+ λ/2) for a successful case, is unsuccessful then λ comparisions.
+Using **open addressing** with **linear probing** the average number of comparisions is aproximately 1/2(1+1/1-λ) with an unsuccessful search giving 1/2(1+(1/1-λ)<sub>2</sub>). If chaining is used then the average is (1+ λ/2) for a successful case, is unsuccessful then λ comparisions.
 
 ## Search Trees
 
@@ -598,7 +598,7 @@ A binary search tree is just a collection of appropriately connected **TreeNodes
 
 ### Inserting a node
 
-Inserting a node into a binary tree is a relatively simple operation, because all we are concerned with is preserving the ordering of the tree. Where a new node will go in the BST of course depends on its key and on the state of the tree before the addition. Suppose we are trying to insert a node N with key k into the tree. First of all, there are two main cases to consider:
+Inserting a node into a binary tree is a relatively simple operation, because all we are concerned with is preserving the ordering of the tree. Where a new node will go in the BST of course depends on its key and on the state of the tree before the addition. subpose we are trying to insert a node N with key k into the tree. First of all, there are two main cases to consider:
 
 - The tree is empty. In this case, N simply becomes the root.
 - The tree already contains nodes. In this case, we have to make sure we observe the ordering property of the tree in finding the right place to insert the new node. We start by setting the current node to the root.
@@ -737,4 +737,10 @@ By ensuring that a tree always has a balance factor of -1,0,1 better Big-O perfo
 There are two possibilities to consider, a left heavy tree and a right heavy tree, taking tree heights of 0,1,2,3
 
 ![AVL Tree examples](./images/LeftHeavyAVLTrees.png)
+
+For a tree of height 0, there is 1 node, for a tree of height 1 there is 1 + 1 = 2 nodes, for a tree of height 2 there is 1 + 1 + 2 = 4 nodes, and for a tree of height 3 there are 1 + 2 + 4 = 7. In general the pattern for the number of nodes in a tree of height _h (N<sub>h</sub>)_ is:
+
+_N<sub>h</sub> = 1 + N<sub>h -1 </sub> + N<sub>h -2 </sub>_
+
+This is very similar to the Fibonaci sequence, this can be used to derive a formula for the height of an AVL tree given the number of nodes in a tree.
 
