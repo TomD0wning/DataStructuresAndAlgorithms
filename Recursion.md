@@ -65,7 +65,7 @@ or
 s(k+1) = \frac{(k+1)(k+2)}{2}
 ```
 
-by definition  ```S(k+1)``` is the sum of the first ```k+1``` natural numbers. 
+by definition  ```S(k+1)``` is the sum of the first ```k+1``` natural numbers.
 
 In other words:
 ```S(k+1) = 1 + 2 + ... + k + (k+1)```
@@ -148,6 +148,7 @@ def factorial(N):
     else:
         return N * factorial(N-1)
 ```
+
 Now let’s consider the state of the call stack at the moment at which the recursion hits the base case, assuming the function was initially called with N = 6.
 
 On the sixth call, the base case has been reached, with the value of N = 1. From this point, the recursion unwinds. The top item on the stack (the base case) is popped, giving 1 as the value of factorial(1). (This situation is illustrated in Figure 3.10.) The next stack frame is then popped and 1 is multiplied by the value of N in this stack frame (2), giving factorial(2) = 1*2 = 2. The next stack frame is popped and the value of N found there (N = 3) is multiplied by the value of factorial( 2) we have already, giving factorial(3) = 6. The rest of the stack is progressively popped in this manner. By the time it is empty, the calculation 1 * 2 * 3 * 4 * 5 * 6 = factorial(6) = 720 has been performed.

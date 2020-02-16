@@ -70,6 +70,4 @@ A binary tree is defined as a tree in which each node has a maximum of two child
 
 - A complete binary tree is a binary tree in which all parents have two children, except for the parents of children at the bottom level of the tree. At the bottom level, all nodes must be as far to the left as possible.
 
-
-
 ## Heaps
