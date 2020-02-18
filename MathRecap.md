@@ -3,6 +3,14 @@
 
 ## Introduction
 
+### Notation
+
+∈ - means is an element of. for example 3 ∈{1,2,3,4,5}.
+
+⊃ - A ⊇ B means every element of B is also an element of A. A ⊃ B means A ⊇ B but A ≠ B.
+
+⊂ - (subset) A ⊆ B means every element of A is also an element of B.(proper subset) A ⊂ B means A ⊆ B but A ≠ B.
+
 ### Factorials
 
 Definition

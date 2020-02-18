@@ -1,4 +1,4 @@
-# Optimisation
+# Optimisation And Graphs
 
 ## Contents
 
@@ -7,6 +7,7 @@
     2a. [Back to trees](#back-to-trees)  
     2b. [Implicit Trees](#Implicit-Trees)  
     2c. [Searching Trees](#Searching-Trees)
+3. [Graphs](#Graphs)
 
 ## Introduction
 
@@ -233,3 +234,21 @@ Applying this to the Grundy’s Game tree, as before we generate (6, 1), (5, 2) 
 The contrast between the two versions of search is illustrated below:
 
 ![DepthFirstBreadthFirst](./images/DepthFirstBreadthFirst.png)
+
+## Graphs
+
+### Definitions
+
+Vertex - Also called a node, is a fundamental part of a graph. it can have a key. A vertex may also have additional information, which is known as the payload.
+
+Edge - also known as an arc, is another key part of a graph. An edge connects two vertices to show that there is a relationship between them. Edges may be one-way or two-way. If the edges are all one-wa, thge graph is a **Directed-Graph**, or a **Digraph**
+
+Weight - Edges may be weighted to shoe that there is a cost to go from vertex to another.
+
+With these definitions, it's possible to more formally define a graph. A graph can be represented by _G_ where _G = (V,E)_. For graph _G_, _V_ is a set of vertices and _E_ a set of edge. Each edge is a **tuple** _(v,w)_, where _w_ ∈ (is an element of) _V_. a third component can be added to the edge tuple to represent a weight. A subgraph _s_ is a set of edges _e_ and vertices _v_ such that _e_ ⊂ _E_ and _v_ ⊂  _V_.
+
+
+Path - A path in a graph is a sequence of vertices that are connected by edges. Formally a path would be deinfed as _w<sub>1</sub>,w<sub>2</sub>....w<sub>n</sub>_ such that _(w<sub>i</sub> + w<sub>i+1</sub>)_ ∈ _E_ for all (1 ≤ _i_ ≤  _n_ - 1). the unweighted path length is the number of edges in the path, specifically _n_ - 1. The weighted path length is the sum of the qweights of all edges in the path.
+
+Cycle - A cycle in a directed graph is a path that starts and ends at the same vertex. A graph with no cycles is called an **Acyclic graph**. A directed graph with no cycles is called a **Directed acyclic graph** or **DAG**. Several important problems can be solved if they are represented as a DAG.
+
