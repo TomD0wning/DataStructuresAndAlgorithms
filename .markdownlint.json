@@ -1,5 +1,6 @@
 {
     "no-inline-html": false,
     "MD037": false,
-    "MD013": false
+    "MD013": false,
+    "MD046": false
 }
