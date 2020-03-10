@@ -15,6 +15,8 @@
     3e. [BFS of a graph](#BFS-of-a-graph)  
     3f. [Analysis of BFS and DFS](#Analysis-of-BFS-and-DFS)  
 4. [Distance Problems](#Distance-Problems)  
+    4a. [Dijkstra’s algorithm](#Dijkstra’s-algorithm)
+5. [Greedy Algorithms](#Greedy-Algorithms)  
 
 ## Introduction
 
@@ -308,6 +310,10 @@ def dfs(vertex, graph):
 def(0, graph1)
 ```
 
+Depth first search of a tree or graph is sometimes described as ‘adventurous’ search. From a certain vertex, one of its immediate neighbours is visited, then one of its neighbours is visited and so on. So, if a vertex has immediate neighbours X and Y and X is visited first, then DFS searches all paths starting at node X before searching paths starting at node Y.
+
+If you come to a vertex with no (unvisited) neighbours you backtrack one stage and visit another neighbour of the previous vertex. Each visited vertex is ‘marked’ to make sure that it is not visited again, to avoid endless cycles of revisiting the same vertices.
+
 ### Spanning trees
 
 A spanning tree is just a subset of the graph’s edges that connect up all the vertices, without including any closed circuits. It therefore contains a minimal set of edges that connect up all the nodes. The tree corresponding to visiting the vertices in the order 1, 2, 4, 3, 5 is below:
@@ -584,3 +590,9 @@ The number of times the inner loop is executed altogether, across all iterations
 The number of times the priority of a vertex in the queue is changed cannot exceed this number and since changing the priority has complexity O(log |V|), the total contribution of the inner loop is O(2|E| × log(|V|)) = O(|E| log(|V|)). (Remember that multiplying by a constant does not affect orders of magnitude, so O(2|E| log(|V|)) and O(|E| log(|V|)) are the same.)
 
 Other steps in the algorithm are of complexity O(|V|) and O(|E|), which are lower orders of magnitude. Hence, Dijkstra’s algorithm has complexity O((|V|+|E|) log(|V|)).
+
+## Greedy Algorithms
+
+In computation, greedy is sometimes good.
+
+Greedy algorithms are algorithms that always go for short-term advantage. Sometimes this turns out to be best in the long run as well
