@@ -17,6 +17,10 @@
 4. [Distance Problems](#Distance-Problems)  
     4a. [Dijkstra’s algorithm](#Dijkstra’s-algorithm)
 5. [Greedy Algorithms](#Greedy-Algorithms)  
+    5a. [MST & Prim's algorithm](#MST-&-Prim's-algorithm)  
+    5b. [Topological Sort](#Topological-Sort)  
+6. [Dynamic Programming](#Dynamic-Programming)  
+    6a. [Optimisation problems](#Optimisation-problems)  
 
 ## Introduction
 
@@ -230,13 +234,13 @@ grundyGame(11)
 
 ### Searching Trees
 
-In [TreesAndHeaps](TreesAndHeaps.md) three ways are mentioned to traverse a tree: p**reorder, postorder and inorder**. What about the form of traversal does the Grundy’s Game algorithm carry out? A useful way to tackle this question is to trace the order in which the algorithm visits nodes.
+In [TreesAndHeaps](TreesAndHeaps.md) three ways are mentioned to traverse a tree: **preorder, postorder and inorder**. What about the form of traversal does the Grundy’s Game algorithm carry out? A useful way to tackle this question is to trace the order in which the algorithm visits nodes.
 
 Represent a node by its game state (e.g. the root node is (7)), and indicate the nodes visited in bold. Assuming that the successor states of a state are generated in the order that they appear (left to right) in Figure 5.6, the algorithm first generates the states **(6, 1)**, (5, 2) and (4, 3). It visits (6, 1) and generates (5, 1, 1) and (4, 2, 1). It then visits **(5, 1, 1)** and generates (4, 1, 1, 1) and (3, 2, 1, 1). Visiting ***(4, 1, 1, 1)***, it generates and then visits **(3, 1, 1, 1, 1)**. Finally, it generates and visits (2, 1, 1, 1, 1, 1). It has reached a leaf node returning to the last place it had a choice of nodes to visit, which was at the point it had generated (4, 1, 1, 1) and (3, 2, 1, 1). Having already explored the subtree rooted at (4, 1, 1, 1), it now visits **(3, 2, 1, 1)**, generates and visits **(2, 2, 1, 1, 1)** and again reaches a leaf node. Returning to the last choice point, the algorithm now visits **(4, 2, 1) → (3, 2, 1, 1) → (2, 2, 1, 1, 1) → (3, 2, 2) → (2, 2, 2, 1) → (4, 3) → (4, 2, 1) → (3, 2, 1, 1) → (2, 2, 1, 1, 1) → (3, 3, 1) → (3, 2, 1, 1) → (2, 2, 1, 1, 1)** end of search.
 
 The algorithm always dives straight down towards the bottom of the tree until it reaches a leaf node. Only then does it **backtrack** to the last point at which it had a choice of nodes to visit, and then plunges downwards again. A search of this kind is termed **depth first**.
 
-A more ‘cautious’ strategy might be to visit all of these first, and look at the legal moves from these, and so on, rather than selecting one and immediately racing down its subtree.
+A more _cautious_ strategy might be to visit all of these first, and look at the legal moves from these, and so on, rather than selecting one and immediately racing down its subtree.
 
 Applying this to the Grundy’s Game tree, as before we generate (6, 1), (5, 2) and (4, 3). We start by visiting (6, 1) then visit (5, 2), and then (4, 3). For each of these we generate the legal moves from them, giving (5, 1, 1), (4, 2, 1), (4, 2, 1), (3, 2, 2), (4, 2, 1), (3, 3, 1). We pick the first of these and visit (5, 1, 1), then (4, 2, 1) and so on. Instead of heading straight downwards, as with depth first search, the direction is across the tree – so this style of search is known **breadth first**.
 
@@ -595,4 +599,342 @@ Other steps in the algorithm are of complexity O(|V|) and O(|E|), which are lowe
 
 In computation, greedy is sometimes good.
 
-Greedy algorithms are algorithms that always go for short-term advantage. Sometimes this turns out to be best in the long run as well
+Greedy algorithms are algorithms that always go for short-term advantage. Sometimes this turns out to be best in the long run as well, as they make a choice that is optimal for themselves in that step and this is what really defines a greedy algorithm; an algorithm that will make
+the locally optimal choice at each stage of its execution reducing the problem into a smaller one but dealing with any problems that could crop up from this later on. Once the choice has been made they
+stick with it.
+
+### MST & Prim's algorithm
+
+As mentioned in the [Spanning Trees](#Spanning-trees)  , every graph has at least one spanning tree, which will haveexactly V-1 edges, and in general there will be many spanning trees, even in a sparse graph. An MST for a weighted graph is simply a spanning tree that minimises the sum of the of the wightes along it's edges.
+
+The concept of MST is important beacuse it allows us to prove a lower bound of traversing the graph, for instance this is helpful for finding routes, or the shortest route for data to travel on a network.
+
+The left graph on the below image shows a tour of cities whereas the right shows the MST of this tour, which has one edge removed, we can see this is a spanning tree as it connects every vertex and contains no cycles. Giving us ```length of tour > length of path ≥ length of MST tree```
+
+![MST_tour](./images/MST_LengthOfTour.png)
+
+Prim's algoithm is a greedy solution to the problem of finding an MST. The algorithm starts from a chosen vertex and grows the MST vertex by vertex, at each stage there are two kinds of vertex:
+
+- Those in the current tree
+- Those _not_ in the current tree
+
+Prim's works from the following principle:
+
+Amoungst all the edges that join a vertex in B to one in A find the shortest. suppose this edge joins _w_ in set B to _u_ in set A. Then add the edge _uw_ to the tree. This adds the vertex that is closest to the existig tree, so the tree is extended at the least possible cost, following the greedy principle.
+
+Below is a structured english version of the algorithm that uses a priority queue. For each vertex in the queue, it keeps track of the shortest edge that could connect that vertex to the current tree, and which vertex in the current tree that edge goes to, holding them in order of how close they are to the existing tree, with the closest at the front. Adding the edge that links the vertex at the front of the priority queue to the corresponding nearest vertex in the tree therefore represents the greedy choice at each stage.
+
+As each vertex is processed, the algorithm first adds this new edge to the tree. Now that this new vertex has been added, the algorithm then removes the vertex from the front of the queue and checks whether any of its neighbours should have their shortest distances updated. If so, it changes their position in the queue.
+
+```python
+create minimum spanning tree
+
+create priority queue
+
+set dist to 0 for v and dist to infinity for all other vertices
+
+add all vertices to priority queue
+
+ITERATE while priority queue is not empty
+
+    remove u from the front of priority queue
+
+    ITERATE over w in the neighbours of u
+
+        set edge length to length of edge from u to w
+
+        if w is in priority queue and edge length < dist w
+
+            set dist w to edge length
+
+            changePriority(w, edge length)
+
+            record nearest in tree to w is u
+
+    if priority queue is not empty
+
+        set next vertex to peek(priority queue)
+
+        add edge (nearest in tree to next vertex, next vertex) to minimum spanning tree
+```
+
+A sample python implementation
+
+```python
+from pythonds.graphs import PriorityQueue
+
+# setting infinity to 100 is sufficient here
+infinity = 100
+
+graph1 = {
+    'u': {'dist': infinity, 'edgeTo': {'v': 1, 'w': 2}},
+    'v': {'dist': infinity, 'edgeTo': {'u': 1, 'x': 6, 'y': 5, 'z': 6}},
+    'w': {'dist': infinity, 'edgeTo': {'u': 2, 'x': 2, 'z': 4}},
+    'x': {'dist': infinity, 'edgeTo': {'v': 6, 'w': 2, 'y': 3}},
+    'y': {'dist': infinity, 'edgeTo': {'x': 3, 'v': 5, 'z': 1}},
+    'z': {'dist': infinity, 'edgeTo': {'v': 6, 'w': 4, 'y': 1}}}
+
+graph2 = {
+    'A': {'dist': infinity, 'edgeTo': {'B': 7, 'D': 5}},
+    'B': {'dist': infinity, 'edgeTo': {'A': 7, 'C': 8, 'D': 9, 'E': 7}},
+    'C': {'dist': infinity, 'edgeTo': {'B': 8, 'E': 5}},
+    'D': {'dist': infinity, 'edgeTo': {'A': 5, 'B': 9, 'E': 15, 'F': 6}},
+    'E': {'dist': infinity, 'edgeTo': {'B': 7, 'C': 5, 'D': 15, 'F': 8, 'G': 9}},
+    'F': {'dist': infinity, 'edgeTo': {'D': 6, 'E': 8, 'G': 11}},
+    'G': {'dist': infinity, 'edgeTo': {'E': 9, 'F': 11}}}
+
+graph3 = {
+    'A': {'dist': infinity, 'edgeTo': {'B': 5, 'C': 6, 'D': 4}},
+    'B': {'dist': infinity, 'edgeTo': {'A': 5, 'C': 1, 'D': 2}},
+    'C': {'dist': infinity, 'edgeTo': {'A': 6, 'B': 1, 'D': 2, 'E': 5, 'F': 3}},
+    'D': {'dist': infinity, 'edgeTo': {'A': 4, 'B': 2, 'C': 2, 'F': 4}},
+    'E': {'dist': infinity, 'edgeTo': {'C': 5, 'F': 4}},
+    'F': {'dist': infinity, 'edgeTo': {'C': 3, 'D': 4, 'E': 4}}}
+
+
+def prim(first, graph):
+    pQueue = PriorityQueue()
+    graph[first]['dist'] = 0
+    for i in graph:
+        pQueue.enqueue((graph[i]['dist'], i))
+    mst = []
+    # dictionary to record for each vertex in the queue its nearest vertex in the tree
+    nearestInTreeTo = {}
+    print('Removing front item', first, 'from priority queue')
+    while not pQueue.isEmpty():
+        u = pQueue.dequeue()
+
+        print('Inspecting neighbours of vertex', u)
+
+        for w in graph[u]['edgeTo']:
+
+            edgeLen = graph[u]['edgeTo'][w]
+            print(u, 'to', w,':', edgeLen)
+
+            currentDist = graph[w]['dist']
+            if w in pQueue and edgeLen < currentDist:
+                graph[w]['dist'] = edgeLen
+                pQueue.changePriority(w, edgeLen)
+                nearestInTreeTo[w] = u
+
+        if not pQueue.isEmpty():
+
+            print('PriorityQueue is now :', pQueue.getEntries())
+            print()
+
+            nextVertex = pQueue.peek()
+            print('Next vertex is:', nextVertex)
+            weight = graph[nextVertex]['dist']
+            newEdge = [[(nearestInTreeTo[nextVertex], nextVertex), weight]]
+
+
+            print('Nearest in tree to', nextVertex,'is', nearestInTreeTo[nextVertex])
+            print('Adding', newEdge, 'to the tree')
+            mst = mst + [[(nearestInTreeTo[nextVertex], nextVertex), weight]]
+
+            print('Tree is now :', mst)
+            print()
+            print('Removing front item', nextVertex, 'from priority queue')
+
+    print('MST completed')
+    return mst
+
+
+def sumWeights(aTree):
+    totalWeight = 0
+    for edge in tree:
+        totalWeight = totalWeight + edge[1]
+    return totalWeight
+```
+
+### Topological Sort
+
+An important fact about a **directed acyclic graph** (DAG) is that the vertices can always be sorted into an order that is consitant with the direction of the edges. If there was an edge going from vertex _u_ to vertex _v_, then _u_ will appear before _v_ in the sorted order, this is **topological sort**
+
+Topological sorting is important in many scheduling tasks where takss depend on other tasks having been completed first. If the dependenices are shown as a digraph and then find a topological sort  that will gice the order in which to carry out the tasks and know that as we come to each task any dependent tasks will have been completed.
+
+A method for finding the topological sort of a DAG is couting the number of incoming edges to a node, an initial insight into this is
+
+- Identify a vertex with no incoming edges and add it to the topological sort.
+- Remove the vertex and all its outgoing edges from the graph.
+- Repeat the process untill all the vertices have been removed.
+
+At each stage there is always a DAG, beacause starting with one and removing a vertex and its outgoing edges cannnot create a cycle.
+
+To see that a DAG must always contain a vertex with no incoming edges, imagine starting at any vertex and swimming upstream against the direction of the arrows. If every vertex has an incoming edge for you to swim upstream against, you will always be able to keep going. The only way that’s possible is if you are going round in circles. But in an acyclic graph it’s impossible go round in circles by definition!
+
+In fact, our algorithm doesn’t literally remove the vertex and edges from the digraph but just works with a dictionary which records how many edges come into each vertex. For the DAG in Figure 5.27, the dictionary would be:
+
+![topological sort dag example](./images/TopologicalSortDAG.png)
+
+itially the vertex with no incoming edges is 4 and edges go from there to vertices 3 and 5. After vertex 4 has been removed the edge count for these vertices will each be reduced by 1, so the dictionary will now be
+
+{1: 1, 2: 2, 3: 0, 5: 1, 6: 1}
+
+a python example of topological sort
+
+```python
+digraph1 = {
+    1: [2],
+    2: [],
+    3: [1, 6],
+    4: [3, 5],
+    5: [],
+    6: [2, 5]}
+
+digraph2 = {
+    '3/4 cup milk':['1 cup mix'],
+    '1 egg':['1 cup mix'],
+    '1 Tbl Oil':['1 cup mix'],
+    '1 cup mix':['pour 1/4 cup', 'heat syrup'],
+    'heat syrup':['eat'],
+    'heat griddle':['pour 1/4 cup'],
+    'pour 1/4 cup':['turn when bubbly'],
+    'turn when bubbly':['eat'],
+    'eat':[]
+}
+
+# Returns a dictionary of incoming edges at each vertex
+def getVertexDictionary(aDigraph):
+    vDict = {}
+    for v in aDigraph:
+        vDict[v] = 0
+    for v in aDigraph:
+        for w in aDigraph[v]:
+            vDict[w] = vDict[w] + 1
+    return vDict
+
+# Returns the set of vertices with no incoming edges
+def getVertexSet(aDict):
+    vertexSet = set()
+    for v in aDict:
+        if aDict[v] == 0:
+            vertexSet.add(v)
+    return vertexSet
+
+# Finds topological sort
+def topSort(digraph):
+    # Initial count of incoming edges at each vertex
+    vertexDict = getVertexDictionary(digraph)
+    print('Initial dictionary of incoming edges at each vertex:', vertexDict)
+    print()
+    # Holding set of vertices with zero incoming edges
+    vertexSet = getVertexSet(vertexDict)
+    # List to hold vertices in topologically sorted order
+    topsort = []
+
+    while len(vertexSet) > 0:
+        print('   Set of vertices with no incoming edges:', vertexSet)
+        # Remove a vertex with no incoming edges from the holding set...
+        v = vertexSet.pop()
+
+        # ...and from the count
+        del vertexDict[v]
+        print('  ', v, 'removed from set and dictionary')
+        # ...and add the vertex to topological sort
+        topsort.append(v)
+        # For each vertex that the removed vertex has an edge to
+        for w in digraph[v]:
+            print('      Decreasing incoming edges count for', w)
+            # Decrease the incoming vertex count...
+            vertexDict[w] = vertexDict[w] - 1
+            # ... and if its count becomes zero add the vertex to the holding set
+            if vertexDict[w] == 0:
+                vertexSet.add(w)
+                print('     ', w, 'now has zero incoming edges so added to the set')
+        print('   Dictionary is now:', vertexDict)
+        print()
+    return topsort
+
+```
+
+## Dynamic Programming
+
+Divide and conquer is a common technique for solving problems, however for this to be effcient the sub problems should be distinct otherwise we could end up solving the same subproblem repeatedly.
+
+An example of this is the Fibonacci sequence, which comprises of the simple rule that each number after the first two is the addition of the previous pair.
+
+The can be easily coded as a recursive function:
+
+```python
+def fib(n):
+
+    if n == 0:
+
+        return 0
+
+    if n == 1:
+
+        return 1
+
+    return fib(n-1) + fib(n-2)
+```
+
+ however it is extremely inefficient:
+
+ ![RecursiveFIbonacci](./images/RecursiveFIbonacci.png)
+
+ This generates many calls, most of which are duplicates of others, creating wasted effort. One idea to prevent this may be to store the result globally, and lookup up the number when needed, known as **memosiation** or **caching**
+
+ ```python
+fibs = {0:0,1:1}
+
+def fib2(n):
+
+    global fibs
+
+    if n not in fibs:
+
+        fibs[n] = fib2(n-1) + fib2(n-2)
+
+    return fibs[n]
+ ```
+
+In some problems, memoisation may be the best we can do to avoid redundant calculations. But in this case we can see that:
+
+    fib2(0) and fib2(1) are required to compute fib2(2)
+    fib2(1) and fib2(2) are required to compute fib2(3)
+    fib2(2) and fib2(3) are required to compute fib2(4)
+
+So we can be more forward looking and systematically compute a list of Fibonacci numbers, working from the bottom up, with the guarantee that as we compute each new value it depends only on ones we have already filled in:
+
+```python
+def fib3(n):
+
+    f = [0, 1]
+
+    for i in range(2, n+1):
+
+        f.append(f[i-1] + f[i-2])
+
+    return f[n]
+```
+
+The reason this works is that we have a structure of subproblems that form a DAG. For every DAG, we know there is a topological sort, and so we can solve the subproblems in the order of the sort. Thus each time we come to a subproblem, all the other subproblems it relies on are certain to have been solved already.
+
+![Fibonacci DAG](./images/FibonacciDAG.png)
+
+The topological sort in this case is easy to see: fib3(0) and fib3(1) come first and then we iteratively calculate fib3(2), fib3(3), etc. until we reach the Fibonacci number we want.
+
+This is the essence of **dynamic programming (DP)**. If we can break a problem up into a series of subproblems whose dependencies on one another form a DAG, then we can solve each problem in the order of a topological sort, and be sure that as we come to each new subproblem all the other subproblems it relies on have already been solved. Where a problem can be broken up in this way we say it has the **DP property**.
+
+    The expression ‘dynamic programming’ was invented by Richard Bellman (1920–1984). The ‘programming’ part is nothing directly to do with computer programming, but comes from project planning, in which programming refers to scheduling a series of interdependent tasks. Bellman seems to have named it ‘dynamic’ because he wanted to give a general feeling that it was progressive and multistage.
+
+Calculating Fibonacci numbers using DP is startlingly more efficient than recursion. The recursive algorithm fib1 is exponential (it is of order O(φn), where φ is the golden ratio, approximately 1.618), but fib3, using DP, is O(n).
+
+## Optimisation problems
+
+### The knapsack problem
+
+Suppose you visit Treasure Island and are lucky enough to stumble across a pirate treasure chest, containing virtually unlimited quantities of three kinds of precious jewel:
+
+|Item|Weight|Value|
+|----|------|-----|
+|Ruby|2Kg|$M 3|
+|Emerald|4Kg|$M 6|
+|Diamond|5Kg|$M 7|
+
+Luckily you have a bag in which you can stuff as many as you want of each kind of jewel, but there is just one snag. The budget airline you are travelling with has tough restrictions on baggage. The heaviest bag of jewels you will be able to take on the plane is 12 kg. What collection of jewels should you choose to maximise your profit?
+
+One way to solve this problem is brute force, but that can be time consuming and cumbersome. instead it's better to look for a way to break the problem down into subproblems.
+
