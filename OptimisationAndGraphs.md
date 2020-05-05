@@ -924,6 +924,22 @@ Calculating Fibonacci numbers using DP is startlingly more efficient than recurs
 
 ## Optimisation problems
 
+Often the real world throws down challenges where arriving at the best solution, efficiently and in a reasonable time is simply impossible: the problems are too complex, the problem space is too vast, there are too many variables.
+
+An old engineering maxim states: ‘Fast, cheap, reliable. Choose two.’ This encapsulates the melancholy truth that, for most real-world problems, the solutions cannot be all of:
+
+- optimal (i.e. the best solution)
+- polynomial (i.e. complexity O(ni), where i ≥ 2), or better
+- guaranteed to work for any input
+
+at the same time. Something has to be sacrificed. In cases such as these, algorithm designers have three main options. They can:
+
+- relax the time requirements. It may be acceptable for the algorithm to take hours, or even days, to arrive at a solution. However, it may never be certain whether such algorithms will terminate in any reasonable time for every input
+- relax the optimality requirements and settle for solutions that approximate to the optimum by a certain factor
+- relax optimality requirements and look for solutions that are ‘good enough’.
+
+Algorithms based on the second and third approaches are known generally as approximate algorithms (though sometimes this term is interpreted more narrowly as only applying to the second approach).
+
 ### The knapsack problem
 
 Suppose you visit Treasure Island and are lucky enough to stumble across a pirate treasure chest, containing virtually unlimited quantities of three kinds of precious jewel:
@@ -938,3 +954,319 @@ Luckily you have a bag in which you can stuff as many as you want of each kind o
 
 One way to solve this problem is brute force, but that can be time consuming and cumbersome. instead it's better to look for a way to break the problem down into subproblems.
 
+One way to look to as this is to imagine you have found the maximum, and the last jewel you added was a ruby. Suppose you take the ruby out again. Now the total weight is reduced by 2 kg and the remaining jewels must represent the optimum solution for a bag weighing 10 kg. Why must they? Because if there were a better solution for 10 kg you could use that, put the ruby back and end up with a better solution to the 12 kg problem!
+
+Similarly, if the last jewel added was an emerald, then removing it would leave the optimum solution for an 8 kg bag and if the last jewel was a diamond removing it would leave the optimum solution for a 7 kg bag. And since it’s the optimum, the contents of the optimum 12 kg bag must in fact be whichever of these three combinations is the most valuable.
+
+More formally, if we write b(w) for the optimum that can be achieved for a bag of weight w then
+
+b(12) is the largest of:
+
+    b(12 − 2) + 3
+    b(12 − 4) + 6
+    b(12 − 5) + 7
+
+In this reasoning, there was nothing special about 12. We could have applied the same argument to any other bag weight w, and so in general
+
+b(w) is the largest of:
+
+    b(w − 2) + 3
+    b(w − 4) + 6
+    b(w − 5) + 7
+
+except that we don’t include cases where the subtraction leaves a negative value.
+
+A crude algorithm can be constructed, that focuses on finding the highest value.
+
+```python
+bagweight = 12
+
+weight = [2,4,5]
+
+value = [3,6,7]
+
+b = [0,0,0,0,0,0,0,0,0,0,0,0,0]
+
+#for each weight
+
+for w in range(1, bagweight+1):
+
+    currentbest = 0
+
+    # test effect of removing each jewel in turn
+
+    for jewel in range(3):
+
+        # if it is light enough to be allowed
+
+        if weight[jewel] <= w:
+
+            # the weight of the bag before this jewel was added
+
+            previousweight = w - weight[jewel]
+
+            # by adding this jewel to it the bag value would be
+
+            possiblebest = b[previousweight] + value[jewel]
+
+            # if this bag value is better than the best so far
+
+            if possiblebest > currentbest:
+
+                # make it the best
+
+                currentbest = possiblebest
+
+    # we have checked each jewel so we now know the best value for bag
+    weight no bigger than w
+
+    b[w] = currentbest
+
+#now repeat for the next value of w
+
+```
+
+below is a more formalised version that can find the optimum for any bag weight:
+
+```python
+bagWeightLimit = 12
+jewelWeights = [2, 4, 5]
+jewelValues = [3, 6, 7]
+jewelNames = ['ruby', 'sapphire', 'diamond']
+
+# Set up a list that will hold optimum values for weights 1 to bagWeightLimit.
+# We give index zero a dummy value for convenience (which we won't use) as we
+# want to index bagValues from 1 rather than zero.
+bagValues = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+
+for w in range(1, bagWeightLimit + 1):
+    print('Weight limit of bag =', w)
+    bestValueForWeight = 0
+    for jewel in range(3):
+        print('Checking if a', jewelNames[jewel], 'weight =', jewelWeights[jewel], ', value =', jewelValues[jewel], 'could be added')
+        if jewelWeights[jewel] <= w:
+            print('  A', jewelNames[jewel], 'could be added')
+            previousBagWeight = w - jewelWeights[jewel]
+            print('  Without the', jewelNames[jewel],'the previous weight of the bag must have been', w, '-', jewelWeights[jewel], '=', previousBagWeight)
+            print('  The best possible value for a bag with a weight limit of', previousBagWeight, 'was', bagValues[previousBagWeight])
+            possibleBestValue = bagValues[previousBagWeight] + jewelValues[jewel]
+            print('  Adding the value of a', jewelNames[jewel], 'gives a total value for this bag of', bagValues[previousBagWeight], '+', jewelValues[jewel], '=', possibleBestValue)
+            if possibleBestValue > bestValueForWeight:
+                bestValueForWeight = possibleBestValue
+                print(' ', possibleBestValue, 'is a new best value for a bag of weight', w)
+            else:
+                print('  This is not better than the current best value of', bestValueForWeight)
+        else:
+            print('  A', jewelNames[jewel], 'would exceed the bag weight limit')
+
+    bagValues[w] = bestValueForWeight
+    print('The optimum total value for a bag with a weight limit of', w, 'is', bagValues[w])
+
+```
+
+the above is a special case of the knapsack problem, and will only work for the predetermined values however it's possible to generalise this to accept any range of items, with weights and values along with any bag size.
+
+``` python
+def knapsack(itemWeights, itemValues, bagWeightLimit):
+
+    # Set up a list that will hold optimum values for weights 1 to bagWeightLimit.
+    # We give index zero a dummy value for convenience (which we won't use) as we
+    # want to index bagValues from 1 rather than zero.
+    bagValues = [0] * (bagWeightLimit + 1)
+
+    for w in range(1, bagWeightLimit + 1):
+        bestValue = 0
+        for x in range(len(itemWeights)):
+            if itemWeights[x] <= w:
+                previousBagWeight = w - itemWeights[x]
+                possibleBest = bagValues[previousBagWeight] + itemValues[x]
+                if possibleBest > bestValue:
+                    bestValue = possibleBest
+        bagValues[w] = bestValue
+
+    # print the optimum total value for a bag of bagWeightLimit
+    print(bagValues[w])
+
+itemWeights = [12, 2, 1, 4, 1]
+itemValues = [4, 2, 1, 10, 2]
+bagWeightLimit = 15
+
+knapsack(itemWeights, itemValues, bagWeightLimit)
+
+```
+
+The Treasure Island puzzle is an example of an **unbounded knapsack**, in which as many copies of each item are avaliable. Other variants to the knapsack problem exist, for instance there is the fractional knapsack, that has the greedy property, there is also the 0-1 knapsack, in which there is only one copy of each item avaliable, so it can be included or not. 
+
+### Levenshtein distance aka edit distance
+
+Strings often need to be compared for a range of different things, one of those is distance, say for instance  if a spell checker needed to compare for inaccuracies.
+
+The edit distance counts the minimum number of changes needed to get from one string to another. Three kinds of edit operation are taken in account:
+
+- Replacement
+- Deletion
+- Insertion
+
+For example, suppose we want to change TREES to FOREST. The fewest possible number of edits is four:  
+![Levenshtein Distance Example](./images/LevenshteinDistanceExample.png)
+
+Computing the edit distance is a good candidate for Dynamic Programming as a brute force method would require too many comparisons.
+
+A good example of this is finding the edit distacnce between prefixes of two words we are comparing. S & T will be used to represent the two words, where S(i) is the first i characters of S and T(j) the first j characters of T, so if S it TREES, then s(3) is TRE, S(0) would be an empty string, and S(5) would be the whole string TREES.
+
+e(i,j) will be used to represent the minimum edit distance between S(i) and T(j).
+
+To make a connection with smaller subproblems, suppose S(i) and T(j) have been built from S(i − 1) and T(j − 1) by adding characters X and Y, respectively
+
+![EditDistance_a](./images/EditDistance_a.png)
+
+To get to the point of having a calculated edit distance, it's possible to list all the routes and count the cost of each interms of edit steps:
+
+1 - If X and Y are a match, i.e. identica, for the shortest distance, edit S(i − 1) to T(j − 1).  
+![EditDistance_b](./images/EditDistance_b.png)
+
+2 - If X and Y are different there is a mismatch. One of three things can then be done, each of which might be optimal:
+
+- Replace X by Y, then edit S(i − 1) to T(j − 1)
+
+    The cost is 1 for the replacement plus e(i − 1, j − 1) for the edit.
+
+    ![EditDistance_c](./images/EditDistance_c.png)
+
+- Delete X, then edit S(i − 1) to the whole of T(j)  
+
+    The cost is 1 for the deletion plus e(i − 1, j) for the edit.  
+    ![EditDistance_d](./images/EditDistance_d.png)
+
+- Edit S(i) to T(j − 1), then insert Y
+
+    The cost is e(i, j − 1) plus 1 for the insertion.  
+    ![EditDistance_e](./images/EditDistance_e.png)
+
+For e(i, j) to be the minimum edit distance we must choose whichever of these possibilities gives the fewest number of edits. We don’t know which one it’s going to be before we do the calculations for the particular strings. But if we use diff(i, j) to mean 0 if X and Y match, and 1 if they don’t, we can write the following relation.
+
+e(i, j) is the minimum of:
+
+    e(i − 1, j − 1) + diff(i, j)
+    1 + e(i − 1, j)
+    e(i, j − 1) + 1
+
+So we have succeeded in relating e(i, j) to solving smaller subproblems. There are still a couple of details to resolve before we shall have a DP algorithm though:
+
+- What are the simplest subproblems?
+- How can we solve the subproblems in an order that ensures that as we do each calculation the subproblems on which it depends will already have been dealt with?
+
+The simplest subproblems are just those where one of the prefixes is an empty string. If the first prefix has length i and the second is an empty string, the edit distance is i (because i deletions is the shortest edit route). Thus e(i, 0) = i. Similarly, if the first prefix is an empty string and the second has length j the edit distance is j (because j insertions is the shortest edit route). Thus e(0, j) = j.
+
+As for the order, imagine a table in which the columns represent values of i and the rows values of j (Table 5.3). The entry in the ith column and jth row will be e(i, j).
+
+|i/j|0|1|2|3|...|
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|0|0|1|2|3|...
+|1|1|e(1,1)|e(2,1)|e(3,1)|...
+|2|2|e(1,2)|e(2,2)|e(3,2)|...
+|3|3|e(1,3)|e(2,3)|e(3,3)|...
+
+If our algorithm for e(n, m) works from left to right and top to bottom then the DP property will apply.
+
+![EditDistance_f](./images/EditDistance_f.png)
+
+```python
+#an algorithm for e(n, m):
+
+for i in range(1, n+1):
+
+    for j in range(1, m+1):
+
+        e(i, j) = min(
+
+                e(i-1, j-1) + diff(i, j),
+
+                1 + e(i-1, j),
+
+                e(i, j-1) + 1)
+```
+
+```python
+
+#!/usr/bin/env python3
+
+# Dynamic programming for Levenshtein edit distance.
+
+# diff function
+def diff(a,b):
+    if a == b:
+        return 0
+    else:
+        return 1
+
+# Main algorithm
+def editDistance(x,y):
+
+    m = len(x)
+    n = len(y)
+
+    # Set up table, intially filled with zeros
+    e = [[0 for i in range(m+1)] for j in range(n+1)]
+
+    # Fill in table borders: these represent the simplest subproblems
+    for i in range(0,n+1):
+        e[i][0] = i
+    for j in range(0,m+1):
+        e[0][j] = j
+
+    # Now apply dynamic programming algorithm!
+    for i in range(1,n+1):
+        for j in range(1,m+1):
+            # match/replace, delete, insert
+            e[i][j] = min(
+                    e[i-1][j-1] + diff(x[j-1],y[i-1]),
+                    1 + e[i-1][j],
+                    1 + e[i][j-1])
+    return e
+
+# Helper function to display results
+def printTable(table):
+    for row in table:
+        for item in row:
+            print(str(item).ljust(2),end=' ')
+        print()
+    r = len(table)-1
+    c = len(table[r])-1
+    distance = str(table[r][c])
+    print('Edit distance = ' + distance)
+    print()
+
+# Example pairs of words
+str1 = 'TREES'
+str2 = 'FOREST'
+
+str3 = 'POLYNOMIAL' 
+str4 = 'EXPONENTIAL'
+
+str5 = 'KITTEN'
+str6 = 'SITTING'
+
+str7 = 'SIX'
+str8 = 'ELEVEN'
+
+e = editDistance(str1,str2)
+print(str1,'to',str2)
+printTable(e)
+
+e = editDistance(str3,str4)
+print(str3,'to',str4)
+printTable(e)
+
+e = editDistance(str5,str6)
+print(str5,'to',str6)
+printTable(e)
+
+e = editDistance(str6,str5)
+print(str6,'to',str5)
+printTable(e)
+
+e = editDistance(str7,str8)
+print(str7,'to',str8)
+printTable(e)
+```

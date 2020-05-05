@@ -1,15 +1,52 @@
 
-# Math Recap
+# Notation & Math
 
-## Introduction
+## Notation
 
-### Notation
+#### Quanitfiers
+
+∀ - Universal quantifier (for all)  
+∃ - Existential quantifier (there exists)
+
+#### Logical Connectives
+
+→ - Implication (implies)  
+¬ - Negation (not)  
+∨ - Disjunction (or)  
+∧ - Conjunction (and)  
+
+#### Set Notation
+
+∅ - Empty Set  
+Ν - The set of natural numbers  
+Ζ - The set of integers  
+∩ - Intersection  
+∪ - Union  
+− - Set difference  
+⊑ - is a subset of  
+⊏ - Is a proper subset of  
+∈ - Is a member of  
+∉ - is not a member of  
+
+##### Further examples
 
 ∈ - means is an element of. for example 3 ∈{1,2,3,4,5}.
 
 ⊃ - A ⊇ B means every element of B is also an element of A. A ⊃ B means A ⊇ B but A ≠ B.
 
 ⊂ - (subset) A ⊆ B means every element of A is also an element of B.(proper subset) A ⊂ B means A ⊆ B but A ≠ B.
+
+#### Interpretations
+
+Ⅾ - Domain  
+_I_ - assignment
+
+#### Functions
+
+-> - maps to
+
+
+## Math
 
 ### Factorials
 
