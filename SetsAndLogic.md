@@ -4,11 +4,11 @@
 
 ### Finite Sets
 
-A set is an **unordered collection** of **distinct** elements, each of which is called either an element or a memeber of that set. These enities might be physical entities, such as people, bacteria, books or planets. In contrast they can also be **abstract** entities, like numbers, computer programs, or other sets. The simplest way of describing a set is a lsit of it members between curly braces, sperated by a comma. For instance a set of whole numbers between 3 & 8 inclusive is written as {3,4,5,6,7,8} however the ordering is not important.
+A set is an **unordered collection** of **distinct** elements, each of which is called either an element or a member of that set. These entities might be physical entities, such as people, bacteria, books or planets. In contrast they can also be **abstract** entities, like numbers, computer programs, or other sets. The simplest way of describing a set is a list of its members between curly braces, separated by a comma. For instance a set of whole numbers between 3 & 8 inclusive is written as {3,4,5,6,7,8} however the ordering is not important.
 
-When a set is reffered to as **distinct**, it means that no element occurs more than once in the set, so 4,5,8,6,4,3,4,5,8,3,7,5,7 when formed into a set would be {3,4,5,6,7,8}.
+When a set is referred to as **distinct**, it means that no element occurs more than once in the set, so 4,5,8,6,4,3,4,5,8,3,7,5,7 when formed into a set would be {3,4,5,6,7,8}.
 
-Writing sets with all the elements explicitly listed is described as the set **enumeration**. Sets can also be described by giving the propertiess of the elements of the set. The set above could also be written as {x: x is a while number between 3 & 8}.This method is known as set **comprehension**, which is often used to describe sets where the enumeration would be too complicated or too lengthy to write.
+Writing sets with all the elements explicitly listed is described as the set **enumeration**. Sets can also be described by giving the properties of the elements of the set. The set above could also be written as {x: x is a while number between 3 & 8}.This method is known as set **comprehension**, which is often used to describe sets where the enumeration would be too complicated or too lengthy to write.
 
 An example of array vs set outputs in python for a string that contains duplicates
 
@@ -51,7 +51,7 @@ As sets are unordered, entities are  either in the set or they are not, there is
 If all the elements of a set are to be found in another set, then the first set is a subset of the second. This is written as
 A ⊑ B
 
-Generally A is a subset of B if every memeber of A is also a member of B. Note that every set has both itself and the empty set as a subset A ⊑ A and ∅ ⊑ A
+Generally A is a subset of B if every member of A is also a member of B. Note that every set has both itself and the empty set as a subset A ⊑ A and ∅ ⊑ A
 
 If A is a subset of B and  is not equal to B, then A us described as a proper subset of B, written as A ⊏ B 
 
@@ -127,13 +127,13 @@ Cardinality of a set is denoted by placing the set between two pipes, |{1,2,3}| 
 
 ### Tuples and Cartesian products
 
-A tuple is a sequence of elements, which unlike a set, is ordered and can contain duplicates. Unlike sets tuples are finite. Tuples which contain n elements are reffered to as n-tuples, this is normally denoted with standard brackets rather than curly braces, like so (a1,a2,a3).
+A tuple is a sequence of elements, which unlike a set, is ordered and can contain duplicates. Unlike sets tuples are finite. Tuples which contain n elements are referred to as n-tuples, this is normally denoted with standard brackets rather than curly braces, like so (a1,a2,a3).
 
 A 2-tuple has two members, also known as an ordered pair, a 3-tuple has three members, called a triple, a 10-tuple has 10 elements and so on.
 
-Two tuples are the same only if they have the same elements in the same sequence, for instance (1,2,3) is not the same as (3,2,1). And as with sets, there is a 0-tuple with no memebers ().
+Two tuples are the same only if they have the same elements in the same sequence, for instance (1,2,3) is not the same as (3,2,1). And as with sets, there is a 0-tuple with no members ().
 
-The concept of an ordered pair can be used to define the **Cartesian product** for two sets. The Cartesian product of two sets, A & B, is written as A x B and is the set of all the ordered pairs (x,y) where x is a member of A and y is a memeber of B. This can also be written as a set comprehension A x B  = {(x,y) : x ∈ A and y ∈ B}. For instance {1,2} x {1,3,5} = {(1,1),{1,3},(1,5),(2,1),(2,3),(2,5)}.
+The concept of an ordered pair can be used to define the **Cartesian product** for two sets. The Cartesian product of two sets, A & B, is written as A x B and is the set of all the ordered pairs (x,y) where x is a member of A and y is a member of B. This can also be written as a set comprehension A x B  = {(x,y) : x ∈ A and y ∈ B}. For instance {1,2} x {1,3,5} = {(1,1),{1,3},(1,5),(2,1),(2,3),(2,5)}.
 
 A simple strategy for finding the Cartesian product is:
 

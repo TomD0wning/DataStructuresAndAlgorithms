@@ -33,7 +33,7 @@
 
 **Sibling** - Nodes in the tree that are children of the same parent.
 
-**Subtree** - A set of nodes and edges comprised of a parent and all the descendants of thst point
+**Subtree** - A set of nodes and edges comprised of a parent and all the descendants of that point
 
 **Leaf Node** - A node that has no children
 
@@ -54,7 +54,7 @@ A tree consists of a set of nodes and a set of edges that connect pairs of nodes
 
 ***Second Definition***
 
-A tree is either empty or consists of a root and zero or more subtrees, each of which is also a tre. The root of each subtree is connected to the root of the parent tree. this is the recurisve definition
+A tree is either empty or consists of a root and zero or more subtrees, each of which is also a tre. The root of each subtree is connected to the root of the parent tree. this is the recursive definition
 
 ### Traversing a tree
 

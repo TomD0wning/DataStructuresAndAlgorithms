@@ -55,9 +55,9 @@ In evaluating the complexity of an algorithm, the cost of comparing and of swapp
 
 Merge sort is a recursive algorithm that continually splits a list in half, in effect using a divide and conquer technique which improves performance over sorting algorithms.
 
-It initially checks the base case (list is empty or has one element), then recursivly invokes a merge sort on both halves of the split list.
+It initially checks the base case (list is empty or has one element), then recursively invokes a merge sort on both halves of the split list.
 
-In general the merge sort a merge sort is a _O(n log n)_. Dividing a list in half is is _log2 n_, where n is the length of the list, the next step is mergeing which results in a list of size n, of which requires n operations. The result being log n splits, each of which cost n for a total of _n log n_ operations.
+In general the merge sort a merge sort is a _O(n log n)_. Dividing a list in half is is _log2 n_, where n is the length of the list, the next step is merging which results in a list of size n, of which requires n operations. The result being log n splits, each of which cost n for a total of _n log n_ operations.
 
 ### Quick sort
 
@@ -67,6 +67,6 @@ When the pointers cross, the list is split into two partitions at the position a
 
 The complexity of quick sort is O(n log n).
 
-Quick sort is one of the fastest known sorting algorithms, however the choice of pivot can greatly affect the performance. In the best case, the pivot will split the list into two equal parts, in which the number of comparisions wil be _(n log n)_.  It can be shown that the total number of swaps in this case will be (n log n)/6. However, as the probability of the pivot being the exact median of the list is only 1/n on each iteration. In the average case, with the pivot being chosen at random, quick sort is O(n log n).
+Quick sort is one of the fastest known sorting algorithms, however the choice of pivot can greatly affect the performance. In the best case, the pivot will split the list into two equal parts, in which the number of comparisons wil be _(n log n)_.  It can be shown that the total number of swaps in this case will be (n log n)/6. However, as the probability of the pivot being the exact median of the list is only 1/n on each iteration. In the average case, with the pivot being chosen at random, quick sort is O(n log n).
 
 The worst case for quick sort  is when the pivot chosen at each step happens to be the largest or smallest item in the partition. The two new partitions formed will then be 0 and n − 1 items long. At the next step, sorting the partition of n − 1 items, picking the largest or smallest item as pivot, produces partitions of size 0 and one of size n − 2, … and so on. In this way, the list has to be split n times, and quick sort’s performance is then O(n2). It will also mean that the recursive version will require more memory for its stack, making the algorithm even less efficient.

@@ -20,6 +20,7 @@
 ∅ - Empty Set  
 Ν - The set of natural numbers  
 Ζ - The set of integers  
+
 ∩ - Intersection  
 ∪ - Union  
 − - Set difference  
@@ -44,7 +45,6 @@ _I_ - assignment
 #### Functions
 
 -> - maps to
-
 
 ## Math
 

@@ -24,15 +24,15 @@
 
 ## Introduction
 
-Optimisation is a form of search – seeking the best solution among the multitude of possible solutions, for instance take the Travelling salesman problem (TSP). The optimisation task with TSP is to find the order in which to visit all _N_ cities once (and only once), and return to the start, that will give the shortest round trip – known as a **tour**. At first it’s a simple matter of brute-force search – just try every ordering and pick the best one? But this approach very rapidly becomes impractical. Knowing that the number of possible orderings of a set of _N_ items is n! If there were five cities, so for a given starting point there are 4! = 24 possible ways to order this basic set. This grows increasingly more difficult the more cities need to be visted, for 10 cities, there are 9! = 362,880 tours; for 20 cities the number of tours is 19! = 1.22 × 10<sup>17</sup>(approximately); for 75 cities, the number of tours is an unimaginably huge 3.31 × 10<sup>107</sup>. Wing design is clearly another problem in optimisation, as the designer is seeking the best (highest) possible lift and the best (lowest) possible drag, as well as the best possible values of other features. The crucial difference from the TSP, however, is this: the TSP requires that only one value (the length of the tour) be optimised, whereas the wing design problem requires the simultaneous optimisation of several. TSP si a **single-objective** problem and wing design **multi-objective**.
+Optimisation is a form of search – seeking the best solution among the multitude of possible solutions, for instance take the Traveling salesman problem (TSP). The optimisation task with TSP is to find the order in which to visit all _N_ cities once (and only once), and return to the start, that will give the shortest round trip – known as a **tour**. At first it’s a simple matter of brute-force search – just try every ordering and pick the best one? But this approach very rapidly becomes impractical. Knowing that the number of possible orderings of a set of _N_ items is n! If there were five cities, so for a given starting point there are 4! = 24 possible ways to order this basic set. This grows increasingly more difficult the more cities need to be visited, for 10 cities, there are 9! = 362,880 tours; for 20 cities the number of tours is 19! = 1.22 × 10<sup>17</sup>(approximately); for 75 cities, the number of tours is an unimaginably huge 3.31 × 10<sup>107</sup>. Wing design is clearly another problem in optimisation, as the designer is seeking the best (highest) possible lift and the best (lowest) possible drag, as well as the best possible values of other features. The crucial difference from the TSP, however, is this: the TSP requires that only one value (the length of the tour) be optimised, whereas the wing design problem requires the simultaneous optimisation of several. TSP si a **single-objective** problem and wing design **multi-objective**.
 
 ## Search and problem space
 
-A set of possible solutions is often reffered to as a problem space. It's possible to think of the problem space for any optimisation problem as a simple list of alternatives. For example, the problem space for a 75-city TSP could be seen as a list of all the possible tours – a list with 3.31 × 10<sup>107</sup> elements. However, a much better idea is to transform an optimisation problem into a different computational problem, by giving the problem space a structure.
+A set of possible solutions is often referred to as a problem space. It's possible to think of the problem space for any optimisation problem as a simple list of alternatives. For example, the problem space for a 75-city TSP could be seen as a list of all the possible tours – a list with 3.31 × 10<sup>107</sup> elements. However, a much better idea is to transform an optimisation problem into a different computational problem, by giving the problem space a structure.
 
 A simple optimisation problem is [Grundy's Game](https://en.wikipedia.org/wiki/Grundy%27s_game) and it's structure reflects two ideas: **choice and consequence**. A player chooses to make a certain move, and this choice will have the consequence of limiting the moves the other player will be able to make next.
 
-The possiblem moves can be mapped as a tree:
+The possible moves can be mapped as a tree:
 
 ![Grundy's Game moves](./images/GrundysGameMoves.png)
 
@@ -61,7 +61,7 @@ optimisation problems can be shown to have a tree-shaped problem space, and the 
 
 ### Implicit Trees
 
-Returning to Grundy’s Game. Psychologists and mathematicians study simple games like these for insights into human decision making, strategy and economic behaviour – a huge area of research known as **game theory**.
+Returning to Grundy’s Game. Psychologists and mathematicians study simple games like these for insights into human decision making, strategy and economic behavior – a huge area of research known as **game theory**.
 
 As Grundy's game is fairly limited, it's possible to show all possible moves
 
@@ -69,7 +69,7 @@ As Grundy's game is fairly limited, it's possible to show all possible moves
 
 Bob is playing Alice, and Bob moves first. Each move by either player constrains the legal replies the opponent can make, until the game reaches a state at which no further legal moves are possible. These states are labelled in bold red text. The player whose turn it would be to move in that final state loses the game.
 
-The winning stratergy relies on find the path which leads to the other player being unable to make a legal move. This written as a computational problem spec
+The winning strategy relies on find the path which leads to the other player being unable to make a legal move. This written as a computational problem spec
 
 ---
 **Name**: GrundyMove  
@@ -254,13 +254,13 @@ The contrast between the two versions of search is illustrated below:
 
 Vertex - Also called a node, is a fundamental part of a graph. it can have a key. A vertex may also have additional information, which is known as the payload.
 
-Edge - also known as an arc, is another key part of a graph. An edge connects two vertices to show that there is a relationship between them. Edges may be one-way or two-way. If the edges are all one-wa, thge graph is a **Directed-Graph**, or a **Digraph**
+Edge - also known as an arc, is another key part of a graph. An edge connects two vertices to show that there is a relationship between them. Edges may be one-way or two-way. If the edges are all one-wa, the graph is a **Directed-Graph**, or a **Digraph**
 
 Weight - Edges may be weighted to shoe that there is a cost to go from vertex to another.
 
 With these definitions, it's possible to more formally define a graph. A graph can be represented by _G_ where _G = (V,E)_. For graph _G_, _V_ is a set of vertices and _E_ a set of edge. Each edge is a **tuple** _(v,w)_, where _w_ ∈ (is an element of) _V_. a third component can be added to the edge tuple to represent a weight. A subgraph _s_ is a set of edges _e_ and vertices _v_ such that _e_ ⊂ _E_ and _v_ ⊂  _V_.
 
-Path - A path in a graph is a sequence of vertices that are connected by edges. Formally a path would be deinfed as _w<sub>1</sub>,w<sub>2</sub>....w<sub>n</sub>_ such that _(w<sub>i</sub> + w<sub>i+1</sub>)_ ∈ _E_ for all (1 ≤ _i_ ≤  _n_ - 1). the unweighted path length is the number of edges in the path, specifically _n_ - 1. The weighted path length is the sum of the qweights of all edges in the path.
+Path - A path in a graph is a sequence of vertices that are connected by edges. Formally a path would be deinfed as _w<sub>1</sub>,w<sub>2</sub>....w<sub>n</sub>_ such that _(w<sub>i</sub> + w<sub>i+1</sub>)_ ∈ _E_ for all (1 ≤ _i_ ≤  _n_ - 1). the unweighted path length is the number of edges in the path, specifically _n_ - 1. The weighted path length is the sum of the weights of all edges in the path.
 
 Cycle - A cycle in a directed graph is a path that starts and ends at the same vertex. A graph with no cycles is called an **Acyclic graph**. A directed graph with no cycles is called a **Directed acyclic graph** or **DAG**. Several important problems can be solved if they are represented as a DAG.
 
@@ -326,7 +326,7 @@ A spanning tree is just a subset of the graph’s edges that connect up all the 
 
 Spanning trees may not be unique: in general, a graph will have many different ones, and starting a DFS of a graph from different initial vertices will generate different spanning trees. An unconnected graph cannot have a spanning tree.
 
-BFS also creates a spanning tree, the corresponding tree for stating at node 2 and traversing the tree using a bredth first search is below:
+BFS also creates a spanning tree, the corresponding tree for stating at node 2 and traversing the tree using a breadth first search is below:
 
 ![Spanning Trees](./images/SpanningTreesBFS.png)
 
@@ -409,13 +409,13 @@ The list is a queue, so the next vertex to visit will always be the one at the f
 
 As with DFS, the vertices are coloured:
 
-- Black for a visted vertex
+- Black for a visited vertex
 - Grey for a vertex waiting in the queue
 - white for an unreached vertex
 
 Then while the to-do queue is not empty, the following actions are repeated:
 
-- Remove the first vetex in the queue, visit the location and colour is black
+- Remove the first vertex in the queue, visit the location and colour is black
 - Locate it's neighbours. Those that are white, will be turned grey and added to the end of the queue
 
 ``` python
@@ -477,10 +477,10 @@ The goal of Dijkstra’s algorithm is to find a path with the minimum distance f
 
 ![WeightedGraph](./images/WeightedGraph.png)
 
-The shortest path between two vertices u and v cannot visit any vertex more than once beacause
+The shortest path between two vertices u and v cannot visit any vertex more than once because
 if the path visited the same vertex twice then it would contain a **cycle**. We could then delete some of the edges in the cycle and reduce the path’s overall distance, which is impossible if it is the shortest path.
 
-Much like BFS Dijkstra's algortihm is iterative and hold the vertices waiting to be process in a data structure. However rather than a FIFO queue, it uses a **priority queue**.
+Much like BFS Dijkstra's algorithm is iterative and hold the vertices waiting to be process in a data structure. However rather than a FIFO queue, it uses a **priority queue**.
 
 In a normal queue items are added to the back and removed from the front, whereas a priority queue, items are added into a position based on their priority, where the lower the number the higher the priority. Thus, if a new item is added with a priority higher than any already in the queue it will be moved immediately to the front, ‘bumping’ existing items with lower priority down the queue. It is also possible for the priority of an item already in the queue to be changed, whereupon the queue will be reordered.
 
@@ -512,7 +512,7 @@ While the priority queue is not empty we repeat these steps:
 - Locate its neighbours. For each neighbour, compute a new distance by adding together the base distance and the length of the edge going to that neighbour.
 - If the new distance is less than the neighbour’s current distance, we have found a shorter path to the neighbour, so replace the neighbour’s distance by the new distance.
 
-A more formal, strucutured english version:
+A more formal, structured english version:
 
 ``` python
 create priority queue
@@ -605,22 +605,22 @@ stick with it.
 
 ### MST & Prim's algorithm
 
-As mentioned in the [Spanning Trees](#Spanning-trees)  , every graph has at least one spanning tree, which will haveexactly V-1 edges, and in general there will be many spanning trees, even in a sparse graph. An MST for a weighted graph is simply a spanning tree that minimises the sum of the of the wightes along it's edges.
+As mentioned in the [Spanning Trees](#Spanning-trees)  , every graph has at least one spanning tree, which will have exactly V-1 edges, and in general there will be many spanning trees, even in a sparse graph. An MST for a weighted graph is simply a spanning tree that minimises the sum of the of the weights along it's edges.
 
-The concept of MST is important beacuse it allows us to prove a lower bound of traversing the graph, for instance this is helpful for finding routes, or the shortest route for data to travel on a network.
+The concept of MST is important because it allows us to prove a lower bound of traversing the graph, for instance this is helpful for finding routes, or the shortest route for data to travel on a network.
 
 The left graph on the below image shows a tour of cities whereas the right shows the MST of this tour, which has one edge removed, we can see this is a spanning tree as it connects every vertex and contains no cycles. Giving us ```length of tour > length of path ≥ length of MST tree```
 
 ![MST_tour](./images/MST_LengthOfTour.png)
 
-Prim's algoithm is a greedy solution to the problem of finding an MST. The algorithm starts from a chosen vertex and grows the MST vertex by vertex, at each stage there are two kinds of vertex:
+Prim's algorithm is a greedy solution to the problem of finding an MST. The algorithm starts from a chosen vertex and grows the MST vertex by vertex, at each stage there are two kinds of vertex:
 
 - Those in the current tree
 - Those _not_ in the current tree
 
 Prim's works from the following principle:
 
-Amoungst all the edges that join a vertex in B to one in A find the shortest. suppose this edge joins _w_ in set B to _u_ in set A. Then add the edge _uw_ to the tree. This adds the vertex that is closest to the existig tree, so the tree is extended at the least possible cost, following the greedy principle.
+Amongst all the edges that join a vertex in B to one in A find the shortest. suppose this edge joins _w_ in set B to _u_ in set A. Then add the edge _uw_ to the tree. This adds the vertex that is closest to the existing tree, so the tree is extended at the least possible cost, following the greedy principle.
 
 Below is a structured english version of the algorithm that uses a priority queue. For each vertex in the queue, it keeps track of the shortest edge that could connect that vertex to the current tree, and which vertex in the current tree that edge goes to, holding them in order of how close they are to the existing tree, with the closest at the front. Adding the edge that links the vertex at the front of the priority queue to the corresponding nearest vertex in the tree therefore represents the greedy choice at each stage.
 
@@ -749,17 +749,17 @@ def sumWeights(aTree):
 
 ### Topological Sort
 
-An important fact about a **directed acyclic graph** (DAG) is that the vertices can always be sorted into an order that is consitant with the direction of the edges. If there was an edge going from vertex _u_ to vertex _v_, then _u_ will appear before _v_ in the sorted order, this is **topological sort**
+An important fact about a **directed acyclic graph** (DAG) is that the vertices can always be sorted into an order that is consistent with the direction of the edges. If there was an edge going from vertex _u_ to vertex _v_, then _u_ will appear before _v_ in the sorted order, this is **topological sort**
 
-Topological sorting is important in many scheduling tasks where takss depend on other tasks having been completed first. If the dependenices are shown as a digraph and then find a topological sort  that will gice the order in which to carry out the tasks and know that as we come to each task any dependent tasks will have been completed.
+Topological sorting is important in many scheduling tasks where tasks depend on other tasks having been completed first. If the dependencies are shown as a digraph and then find a topological sort  that will give the order in which to carry out the tasks and know that as we come to each task any dependent tasks will have been completed.
 
-A method for finding the topological sort of a DAG is couting the number of incoming edges to a node, an initial insight into this is
+A method for finding the topological sort of a DAG is counting the number of incoming edges to a node, an initial insight into this is
 
 - Identify a vertex with no incoming edges and add it to the topological sort.
 - Remove the vertex and all its outgoing edges from the graph.
-- Repeat the process untill all the vertices have been removed.
+- Repeat the process until all the vertices have been removed.
 
-At each stage there is always a DAG, beacause starting with one and removing a vertex and its outgoing edges cannnot create a cycle.
+At each stage there is always a DAG, because starting with one and removing a vertex and its outgoing edges cannot create a cycle.
 
 To see that a DAG must always contain a vertex with no incoming edges, imagine starting at any vertex and swimming upstream against the direction of the arrows. If every vertex has an incoming edge for you to swim upstream against, you will always be able to keep going. The only way that’s possible is if you are going round in circles. But in an acyclic graph it’s impossible go round in circles by definition!
 
@@ -767,7 +767,7 @@ In fact, our algorithm doesn’t literally remove the vertex and edges from the 
 
 ![topological sort dag example](./images/TopologicalSortDAG.png)
 
-itially the vertex with no incoming edges is 4 and edges go from there to vertices 3 and 5. After vertex 4 has been removed the edge count for these vertices will each be reduced by 1, so the dictionary will now be
+initially the vertex with no incoming edges is 4 and edges go from there to vertices 3 and 5. After vertex 4 has been removed the edge count for these vertices will each be reduced by 1, so the dictionary will now be
 
 {1: 1, 2: 2, 3: 0, 5: 1, 6: 1}
 
@@ -850,7 +850,7 @@ def topSort(digraph):
 
 ## Dynamic Programming
 
-Divide and conquer is a common technique for solving problems, however for this to be effcient the sub problems should be distinct otherwise we could end up solving the same subproblem repeatedly.
+Divide and conquer is a common technique for solving problems, however for this to be efficient the sub problems should be distinct otherwise we could end up solving the same subproblem repeatedly.
 
 An example of this is the Fibonacci sequence, which comprises of the simple rule that each number after the first two is the addition of the previous pair.
 
@@ -950,7 +950,7 @@ Suppose you visit Treasure Island and are lucky enough to stumble across a pirat
 |Emerald|4Kg|$M 6|
 |Diamond|5Kg|$M 7|
 
-Luckily you have a bag in which you can stuff as many as you want of each kind of jewel, but there is just one snag. The budget airline you are travelling with has tough restrictions on baggage. The heaviest bag of jewels you will be able to take on the plane is 12 kg. What collection of jewels should you choose to maximise your profit?
+Luckily you have a bag in which you can stuff as many as you want of each kind of jewel, but there is just one snag. The budget airline you are traveling with has tough restrictions on baggage. The heaviest bag of jewels you will be able to take on the plane is 12 kg. What collection of jewels should you choose to maximise your profit?
 
 One way to solve this problem is brute force, but that can be time consuming and cumbersome. instead it's better to look for a way to break the problem down into subproblems.
 
@@ -1095,7 +1095,7 @@ knapsack(itemWeights, itemValues, bagWeightLimit)
 
 ```
 
-The Treasure Island puzzle is an example of an **unbounded knapsack**, in which as many copies of each item are avaliable. Other variants to the knapsack problem exist, for instance there is the fractional knapsack, that has the greedy property, there is also the 0-1 knapsack, in which there is only one copy of each item avaliable, so it can be included or not. 
+The Treasure Island puzzle is an example of an **unbounded knapsack**, in which as many copies of each item are available. Other variants to the knapsack problem exist, for instance there is the fractional knapsack, that has the greedy property, there is also the 0-1 knapsack, in which there is only one copy of each item available, so it can be included or not.
 
 ### Levenshtein distance aka edit distance
 
@@ -1112,7 +1112,7 @@ For example, suppose we want to change TREES to FOREST. The fewest possible numb
 
 Computing the edit distance is a good candidate for Dynamic Programming as a brute force method would require too many comparisons.
 
-A good example of this is finding the edit distacnce between prefixes of two words we are comparing. S & T will be used to represent the two words, where S(i) is the first i characters of S and T(j) the first j characters of T, so if S it TREES, then s(3) is TRE, S(0) would be an empty string, and S(5) would be the whole string TREES.
+A good example of this is finding the edit distance between prefixes of two words we are comparing. S & T will be used to represent the two words, where S(i) is the first i characters of S and T(j) the first j characters of T, so if S it TREES, then s(3) is TRE, S(0) would be an empty string, and S(5) would be the whole string TREES.
 
 e(i,j) will be used to represent the minimum edit distance between S(i) and T(j).
 
@@ -1120,9 +1120,9 @@ To make a connection with smaller subproblems, suppose S(i) and T(j) have been b
 
 ![EditDistance_a](./images/EditDistance_a.png)
 
-To get to the point of having a calculated edit distance, it's possible to list all the routes and count the cost of each interms of edit steps:
+To get to the point of having a calculated edit distance, it's possible to list all the routes and count the cost of each in terms of edit steps:
 
-1 - If X and Y are a match, i.e. identica, for the shortest distance, edit S(i − 1) to T(j − 1).  
+1 - If X and Y are a match, i.e. identical, for the shortest distance, edit S(i − 1) to T(j − 1).  
 ![EditDistance_b](./images/EditDistance_b.png)
 
 2 - If X and Y are different there is a mismatch. One of three things can then be done, each of which might be optimal:

@@ -120,7 +120,7 @@ def quickSelect(k, aList):
 
 ### Basic string search
 
-A basic strategy to find a string within a sequence would be to start at the first charcter _S_ then compare the characters in the target string _T_ one be one until a match is found, if not the second chacter in _S_ is set as the start postion and the check repeats.
+A basic strategy to find a string within a sequence would be to start at the first character _S_ then compare the characters in the target string _T_ one be one until a match is found, if not the second character in _S_ is set as the start position and the check repeats.
 
 ![Basic string search](./images/BasicStringSearch.png)
 
@@ -171,17 +171,17 @@ def basicStringSearch(searchString, target):
     return -1
 ```
 
-As this is a brute force approach, it's not performant. Every possibility is tried until an occurance of _T_ is found or _S_ is exhausted. The worst case is when the outer loop runs all the way to the end of S, and each execution of the inner loop runs all the way to the end of _T_. This will happen if on each comparison of _T_ against _S_ a mismatch doesn’t occur until the last character of _T_.
+As this is a brute force approach, it's not performant. Every possibility is tried until an occurrence of _T_ is found or _S_ is exhausted. The worst case is when the outer loop runs all the way to the end of S, and each execution of the inner loop runs all the way to the end of _T_. This will happen if on each comparison of _T_ against _S_ a mismatch doesn’t occur until the last character of _T_.
 
 If that's the worst case then the the complexity of the basic string search algorithm for a target string _T_ of _m_ characters, and a search string _S_ of _n_ characters, since _T_ is only matched for the last position in _S_ and the last position in _T_ the algorithm will need to make _m_ comparisons on every execution of its inner loop. And it will have to do this all the way along _S_, from position _0_ to position _n − m_, i.e. there will be _n − m + 1_ executions of the inner loop. (This will also be true in the other worst case, where _T_ is not matched anywhere in _S_ at all.) Thus the total number of comparisons will be:
 
 (n − m + 1) × m = mn − m2 + m.
 
-Since _n > m_ (generally, _n_ is much larger than _m_), the term _mn_ quickly dominates, so the algorithm is _O(mn)_, which is hardly very efficient. In fact, since _n > m_, _O(mn) > O(m2)_. An algorithm with complexity _O(n)_ would be perffered, so that the running time mainly depends on the length of _S_ and is fairly insensitive to the length of _T_.
+Since _n > m_ (generally, _n_ is much larger than _m_), the term _mn_ quickly dominates, so the algorithm is _O(mn)_, which is hardly very efficient. In fact, since _n > m_, _O(mn) > O(m2)_. An algorithm with complexity _O(n)_ would be preferred, so that the running time mainly depends on the length of _S_ and is fairly insensitive to the length of _T_.
 
 ## Quick Search
 
-Rarther than checking each character in _S_ against _T_, a more performant approach is to for each character in _T_ calculate the number of positions to shift _T_ if a comparison fails, according to where (if at all) that character appears in _T_.
+Rather than checking each character in _S_ against _T_, a more performant approach is to for each character in _T_ calculate the number of positions to shift _T_ if a comparison fails, according to where (if at all) that character appears in _T_.
 
 Repeatedly compare the characters of _T_ with those of _S_. If a comparison fails, examine the next character along in _S_ and shift _T_ by the calculated shift distance for that character.
 
@@ -194,7 +194,7 @@ The shift distance is calculated according to the following rules:
 - If the character does not appear in _T_, the shift distance is one more than the length of _T_.
 - If the character does appear in _T_, the shift distance is the first position at which it appears, counting from right to left and starting at 1.
 
-For example, subpose the alphabet is {G, A, C, T} and the target string T is TCCACC. First, we number the characters of T from right to left starting at 1.
+For example, suppose the alphabet is {G, A, C, T} and the target string T is TCCACC. First, we number the characters of T from right to left starting at 1.
 
 ```json
 TargetString:
@@ -247,9 +247,9 @@ for i in range(len(target)):
     shiftTable[char] = shift
 ```
 
-Even if a character appears more than once in the target string the shift table is updated to use the last occurance, also as the values are checked from left to right, the final table with consist of the rightmost occurances of the characters. If the character does not appear then they will have the default value of `len(target) + 1`, as the rules specifiy.
+Even if a character appears more than once in the target string the shift table is updated to use the last occurrence, also as the values are checked from left to right, the final table with consist of the rightmost occurrences of the characters. If the character does not appear then they will have the default value of `len(target) + 1`, as the rules specify.
 
- Bringing together the modifications to the basic string search, the strucutred english for the quick search algorithm is:
+ Bringing together the modifications to the basic string search, the structured english for the quick search algorithm is:
 
  ```python
 
@@ -401,13 +401,13 @@ TODO - Research this and write notes
 
 ## Hashing and hash tables
 
-A hash table is a collection of items which are stored in such a way as to make it easy to find them later. Each position of the hash table, often called a **slot**, can hold an item and is named by an integer value startning at 0. Initially the hash table contains no items so every slot is empty.
+A hash table is a collection of items which are stored in such a way as to make it easy to find them later. Each position of the hash table, often called a **slot**, can hold an item and is named by an integer value starting at 0. Initially the hash table contains no items so every slot is empty.
 
 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | null | null | null | null | null | null | null | null | null | null | null
 
-The mapping between an item and the slot, where that item belongs in the has table is called a **hash function**. The has function will take any item in the collection and return an integer in the range of slot names, between _0_ & _m-1_. One method of determing the hash value is called the **remainder method**, which works by taking an item and dividing by the table size, returning the remainder as the hash value _(h(item) = item%11)_ (modulo arithmetic).
+The mapping between an item and the slot, where that item belongs in the has table is called a **hash function**. The has function will take any item in the collection and return an integer in the range of slot names, between _0_ & _m-1_. One method of determining the hash value is called the **remainder method**, which works by taking an item and dividing by the table size, returning the remainder as the hash value _(h(item) = item%11)_ (modulo arithmetic).
 
 Taking a sample list of 56,26,93,17,77,31 and applying the remainder method, the hash values would be
 
@@ -420,7 +420,7 @@ Taking a sample list of 56,26,93,17,77,31 and applying the remainder method, the
 77|0
 31|9
 
-Once the hash values have been computedm each item can be instered into the hash table at the designated position, shown in the table above. The amount of occupied slots is known as the **load factor** , denoted by _```λ = numberofitem/tablesize```_.
+Once the hash values have been computed each item can be inserted into the hash table at the designated position, shown in the table above. The amount of occupied slots is known as the **load factor** , denoted by _```λ = numberofitem/tablesize```_.
 
 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
 |:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
@@ -430,9 +430,9 @@ Now when searching for an item in the table, the hash function can be used to ch
 
 However a problem occurs when two or more items have the same hash value (44%11 == 0 & 77%11 == 0 ), this causes a **collision** or **clash**. (See [Collision resolution](#Collision-resolution))
 
-Given a collection of items, a hash function that maps each item into a unique slot is referred to as a **perfect hash function**. If it's known that the items in the collection will not change then it's possible to construct a perfect hash function. However given an aribtory collection of items there is no way to construct a perfect hash function, however to still gain performance efficiency the has function does not need to be perfect.
+Given a collection of items, a hash function that maps each item into a unique slot is referred to as a **perfect hash function**. If it's known that the items in the collection will not change then it's possible to construct a perfect hash function. However given an arbitrary collection of items there is no way to construct a perfect hash function, however to still gain performance efficiency the has function does not need to be perfect.
 
-One way to achieve a perfect hash function is to increase the size of the hash table however this is only feasable with small numbers, a collection of 9 digit numbers for instance would almost 1 billion slots, potentially wasting huge amounts of memeory. In order to create a hash function that minimises the number of collisions, is easy to compute and evenly distributes  the items, the remainder method needs to be extended.
+One way to achieve a perfect hash function is to increase the size of the hash table however this is only feasible with small numbers, a collection of 9 digit numbers for instance would almost 1 billion slots, potentially wasting huge amounts of memory. In order to create a hash function that minimises the number of collisions, is easy to compute and evenly distributes  the items, the remainder method needs to be extended.
 
 the folding method is an extension of this, it begins by dividing the item into equal-sizes (the last item may be an exception). These pieces are then added together to give the resulting hash value. For instance take the number 436-555-4601, the digits would be divided into groups of 2 (43,65,55,46,01), then after the addition, we would get 210, then taking the 11 slot hash table above using the remainder method (_210 % 11 == 1_) the item would be placed into slot 1 of the hash table. Other folding methods go further and reverse every other piece of the item before the addition step, using the same number the reverse method would give (_43+56+55+64+01 = 219_), then applying the remainder method, (_219 % 11 = 10._)
 
@@ -466,7 +466,7 @@ Another numerical technique for constructing a hash function is called the **mid
 77|0 | 4
 31|9 | 6
 
-Python example of mid-sqaure
+Python example of mid-square
 
 ```python
 def getMiddle(aNumber):
@@ -502,7 +502,7 @@ def weightedHash(str, tableSize):
     return sum%tableSize
 ```
 
-Regardless of the hash function, whats important is that the function has to be effcient so that it does not become the dominant part of the storage and search process. If the hash function is too complex then it becomes more work to compute the slot name than it would be to do a basic sequential or binary search, defeating the point of hashing.
+Regardless of the hash function, whats important is that the function has to be efficient so that it does not become the dominant part of the storage and search process. If the hash function is too complex then it becomes more work to compute the slot name than it would be to do a basic sequential or binary search, defeating the point of hashing.
 
 ## Collision resolution
 
@@ -510,23 +510,23 @@ When two items hash to the same slot, a systematic way of placing the second ite
 
 A method for resolving collisions looks into the hash table and tries to find another open slot to hold the **clashed** item, simply by starting at the original hash value position and sequentially checking the slots until an empty one is encountered, going to the first slot may also be required to cover the entire hash table, this is referred to as **open addressing** in so far as it tries to find the next open slot or address. **Open addressing**, uses a technique called [Linear probing](https://en.wikipedia.org/wiki/Linear_probing).
 
-Using open addressing to solve collisions means that the same method must be utilised to search for items as there could have been collisions means that the items have shifted in the hash table, therfore a sequential search must be done to determine if the item is present in any of the slots after the search index. Another disadvantage of **Linear probing** is the tendency for **clustering**, if too many collisions occur at the same hash value, a number of surronding slots will be filled by the **linear probing** resolution, having an impact on the other items that are being inserted.
+Using open addressing to solve collisions means that the same method must be utilised to search for items as there could have been collisions means that the items have shifted in the hash table, therfore a sequential search must be done to determine if the item is present in any of the slots after the search index. Another disadvantage of **Linear probing** is the tendency for **clustering**, if too many collisions occur at the same hash value, a number of surrounding slots will be filled by the **linear probing** resolution, having an impact on the other items that are being inserted.
 
 One way to deal with **clustering** is to extend the **linear probing** technique, so that instead of looking sequentially for the next open slot, slots are skipped, thereby more evenly distributing the items that have caused collisions, commonlly called the **plus 3 probe** as 3 slots are skipped when placing the clashed value.
 
 The general name for the process of looking for another slot after a collision is called **rehashing**, with simple linear probing the rehashfunction is ```newHashValue = rehash(oldHashValue)```, where ```rehash(pos) = (pos + 1)%sizeOfTable```. The plus 3 rehash can be defined as ```rehash(pos) = (pos + 3)%sizeOfTable```, more generally ```rehash(pos) = (pos + skip)%sizeOfTable```. It's important that the size of the skip be such that all slots in the table will be visited, otherwise part of the table will be unused. A useful method for this is to always use prime numbers (2, 3, 5, 7, 11, 13...)
 
-A variation of the linear probing idea is called **quadratic probing**. Instead of using a constant skip value, a rehash function that increments the hash value by primes. this means that is the first has value is _h_ then succesive values are _h+1, h+4, h+9, h+16_, essentially using a skip of succesive perfect squares.
+A variation of the linear probing idea is called **quadratic probing**. Instead of using a constant skip value, a rehash function that increments the hash value by primes. this means that is the first has value is _h_ then successive values are _h+1, h+4, h+9, h+16_, essentially using a skip of successive perfect squares.
 
-An alternate method for handling collisions is known as **Chaining**, this allows each slot to hold a reference to a collection (chain) of items. This allows many items to exist at the same location in the hash table and when a collision occurs the item is still places in the proper slot for the hash table, however as more items are added to the chain the difficulty of searcing for the item increases. Since each slot holds a collection a serching technique needs to be used to determine if the item is present, the advantage being that there is likly to be fewer items in the chain.
+An alternate method for handling collisions is known as **Chaining**, this allows each slot to hold a reference to a collection (chain) of items. This allows many items to exist at the same location in the hash table and when a collision occurs the item is still places in the proper slot for the hash table, however as more items are added to the chain the difficulty of searching for the item increases. Since each slot holds a collection a searching technique needs to be used to determine if the item is present, the advantage being that there is likely to be fewer items in the chain.
 
 ## Analysis of hashing
 
-In the best case hashing would provide a O(1) constant time search technique, however due to collisions and the number of comparisions this is typically not simple.
+In the best case hashing would provide a O(1) constant time search technique, however due to collisions and the number of comparisons this is typically not simple.
 
-In general the most important piece of information needed to analyse the use of a hash table is the **load factor**, **λ**. Conceptually if λ is small, then there is a lower chance of collisons, meaning that the table is filling up, slots where they belong. If λ is large , meaning the table is filling up then there are more and more collisions. this means that collision resolution is more difficult, requiring more comparisions to find an empty slot. With chaining, increaded collisions means an increased number of items on each chain.
+In general the most important piece of information needed to analyse the use of a hash table is the **load factor**, **λ**. Conceptually if λ is small, then there is a lower chance of collisions, meaning that the table is filling up, slots where they belong. If λ is large , meaning the table is filling up then there are more and more collisions. this means that collision resolution is more difficult, requiring more comparisons to find an empty slot. With chaining, increased collisions means an increased number of items on each chain.
 
-Using **open addressing** with **linear probing** the average number of comparisions is aproximately 1/2(1+1/1-λ) with an unsuccessful search giving 1/2(1+(1/1-λ)<sub>2</sub>). If chaining is used then the average is (1+ λ/2) for a successful case, is unsuccessful then λ comparisions.
+Using **open addressing** with **linear probing** the average number of comparisons is approximately 1/2(1+1/1-λ) with an unsuccessful search giving 1/2(1+(1/1-λ)<sub>2</sub>). If chaining is used then the average is (1+ λ/2) for a successful case, is unsuccessful then λ comparisons.
 
 ## Search Trees
 
@@ -553,7 +553,7 @@ Note that the ordering property is preserved: for any given node, all the nodes 
 
 ![Basic BST with payload](./images/BSTWithPayload.png)
 
-Efficiently searching a BST is similer to the way a binary search works, in so far as in binary search of a list, we split the list into left and right partitions, and then search either the left or the right partition, according to the search value. In a binary search tree, we search the left or the right subtree of a node, according to the key we are searching for. This efficiny takes advantage of the ordering rule, an algorithm written in structured english for this would look like:
+Efficiently searching a BST is similar to the way a binary search works, in so far as in binary search of a list, we split the list into left and right partitions, and then search either the left or the right partition, according to the search value. In a binary search tree, we search the left or the right subtree of a node, according to the key we are searching for. This efficiency takes advantage of the ordering rule, an algorithm written in structured english for this would look like:
 
 ```python
 set current node to the root
@@ -598,7 +598,7 @@ A binary search tree is just a collection of appropriately connected **TreeNodes
 
 ### Inserting a node
 
-Inserting a node into a binary tree is a relatively simple operation, because all we are concerned with is preserving the ordering of the tree. Where a new node will go in the BST of course depends on its key and on the state of the tree before the addition. subpose we are trying to insert a node N with key k into the tree. First of all, there are two main cases to consider:
+Inserting a node into a binary tree is a relatively simple operation, because all we are concerned with is preserving the ordering of the tree. Where a new node will go in the BST of course depends on its key and on the state of the tree before the addition. suppose we are trying to insert a node N with key k into the tree. First of all, there are two main cases to consider:
 
 - The tree is empty. In this case, N simply becomes the root.
 - The tree already contains nodes. In this case, we have to make sure we observe the ordering property of the tree in finding the right place to insert the new node. We start by setting the current node to the root.
@@ -742,5 +742,4 @@ For a tree of height 0, there is 1 node, for a tree of height 1 there is 1 + 1 =
 
 _N<sub>h</sub> = 1 + N<sub>h -1 </sub> + N<sub>h -2 </sub>_
 
-This is very similar to the Fibonaci sequence, this can be used to derive a formula for the height of an AVL tree given the number of nodes in a tree.
-
+This is very similar to the Fibonacci sequence, this can be used to derive a formula for the height of an AVL tree given the number of nodes in a tree.
