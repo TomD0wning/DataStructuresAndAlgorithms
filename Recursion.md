@@ -95,7 +95,7 @@ Two thing can be gleaned from this
 - the proposition P(n) is true for n = 1
 - if the proposition is true for k it is also true for k + 1
 
-**Remeber To prove a proposition, firstly proved the simplest possible case of the proposition. Then we based the second part of our proof on increasing the size of the problem by 1.**
+**Remember To prove a proposition, firstly proved the simplest possible case of the proposition. Then we based the second part of our proof on increasing the size of the problem by 1.**
 
 ---
 
@@ -195,7 +195,7 @@ def OddIntegerSummation(n):
         return ((n * 2) - 1) + partialSum
 ```
 
-Add details for recursice sorting....
+Add details for recursive sorting....
 
 It's possible to write both iterative and recursive versions of most algorithms, but it's not necessarily any faster, both versions of selection sort are still _O(n2)_
 because they have one loop nested inside of another. In the recursive version the outerloop is recursive, and the inner loop is iterative. Whereas in the iterative version both loops are iterative. But it's still worth using recursion because:

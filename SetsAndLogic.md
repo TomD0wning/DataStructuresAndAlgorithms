@@ -143,7 +143,7 @@ A simple strategy for finding the Cartesian product is:
 ```python
 setA = {1,2,3}
 setB ={1,2}
-setC = {'apple','bananna'}
+setC = {'apple','banana'}
 
 {{x,y,z} for x in setA for y in setB for z in setC}
 ```

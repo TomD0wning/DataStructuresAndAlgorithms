@@ -50,9 +50,9 @@ Postcondition: x is the kth smallest item in S
 
 a naive solution would be to sort the list (using quick sort) and then pick the kth smallest item, making the solution O(n log n). Alternatively, use a cut-down version of selection sort: find the smallest value and move it to the beginning of the list, then the next smallest, and go on doing this until the kth smallest item. But this has the same complexity as selection sort: it requires a nested loop, and so is O(n2)
 
-![Quick Seach Example](./images/QuickSearch.png)  
+![Quick Search Example](./images/QuickSearch.png)  
 
-Written as structued english:
+Written as structured english:
 
 ```python
     IF length of S is 1
@@ -512,9 +512,9 @@ A method for resolving collisions looks into the hash table and tries to find an
 
 Using open addressing to solve collisions means that the same method must be utilised to search for items as there could have been collisions means that the items have shifted in the hash table, therfore a sequential search must be done to determine if the item is present in any of the slots after the search index. Another disadvantage of **Linear probing** is the tendency for **clustering**, if too many collisions occur at the same hash value, a number of surrounding slots will be filled by the **linear probing** resolution, having an impact on the other items that are being inserted.
 
-One way to deal with **clustering** is to extend the **linear probing** technique, so that instead of looking sequentially for the next open slot, slots are skipped, thereby more evenly distributing the items that have caused collisions, commonlly called the **plus 3 probe** as 3 slots are skipped when placing the clashed value.
+One way to deal with **clustering** is to extend the **linear probing** technique, so that instead of looking sequentially for the next open slot, slots are skipped, thereby more evenly distributing the items that have caused collisions, commonly called the **plus 3 probe** as 3 slots are skipped when placing the clashed value.
 
-The general name for the process of looking for another slot after a collision is called **rehashing**, with simple linear probing the rehashfunction is ```newHashValue = rehash(oldHashValue)```, where ```rehash(pos) = (pos + 1)%sizeOfTable```. The plus 3 rehash can be defined as ```rehash(pos) = (pos + 3)%sizeOfTable```, more generally ```rehash(pos) = (pos + skip)%sizeOfTable```. It's important that the size of the skip be such that all slots in the table will be visited, otherwise part of the table will be unused. A useful method for this is to always use prime numbers (2, 3, 5, 7, 11, 13...)
+The general name for the process of looking for another slot after a collision is called **rehashing**, with simple linear probing the rehash function is ```newHashValue = rehash(oldHashValue)```, where ```rehash(pos) = (pos + 1)%sizeOfTable```. The plus 3 rehash can be defined as ```rehash(pos) = (pos + 3)%sizeOfTable```, more generally ```rehash(pos) = (pos + skip)%sizeOfTable```. It's important that the size of the skip be such that all slots in the table will be visited, otherwise part of the table will be unused. A useful method for this is to always use prime numbers (2, 3, 5, 7, 11, 13...)
 
 A variation of the linear probing idea is called **quadratic probing**. Instead of using a constant skip value, a rehash function that increments the hash value by primes. this means that is the first has value is _h_ then successive values are _h+1, h+4, h+9, h+16_, essentially using a skip of successive perfect squares.
 

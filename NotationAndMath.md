@@ -3,19 +3,19 @@
 
 ## Notation
 
-#### Quanitfiers
+### Quantifiers
 
 ∀ - Universal quantifier (for all)  
 ∃ - Existential quantifier (there exists)
 
-#### Logical Connectives
+### Logical Connectives
 
 → - Implication (implies)  
 ¬ - Negation (not)  
 ∨ - Disjunction (or)  
 ∧ - Conjunction (and)  
 
-#### Set Notation
+### Set Notation
 
 ∅ - Empty Set  
 Ν - The set of natural numbers  
@@ -29,7 +29,7 @@
 ∈ - Is a member of  
 ∉ - is not a member of  
 
-##### Further examples
+#### Further examples
 
 ∈ - means is an element of. for example 3 ∈{1,2,3,4,5}.
 
@@ -37,12 +37,12 @@
 
 ⊂ - (subset) A ⊆ B means every element of A is also an element of B.(proper subset) A ⊂ B means A ⊆ B but A ≠ B.
 
-#### Interpretations
+### Interpretations
 
 Ⅾ - Domain  
 _I_ - assignment
 
-#### Functions
+### Functions
 
 -> - maps to
 
@@ -71,6 +71,6 @@ Examples for Small Values
 
 ### Logs
 
-### Exponentials
+### Exponentiale
 
 ### Big O notation
