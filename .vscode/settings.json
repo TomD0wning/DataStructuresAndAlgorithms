@@ -6,5 +6,9 @@
     ],
     "python.linting.pylintEnabled": true,
     "python.linting.enabled": true,
-    "python.formatting.provider": "black"
+    "python.formatting.provider": "autopep8",
+    "python.analysis.extraPaths": [
+        "./src",
+        "Activities/M269_Unit_2/Python_activity_2.2/Stack.py"
+    ]
 }
